@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Recycle Rush Scouting</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="scouting_sheet_title">Create a New Scouting Sheet!</string>
+    <string name="auton_mode">Autonomous</string>
+    <string name="can_auton">Does it have an Autonomous?</string>
+    <string name="n_totes">How many totes does it pickup?</string>
+
+</resources>
