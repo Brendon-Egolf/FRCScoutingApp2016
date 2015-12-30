@@ -11,5 +11,6 @@
     <dimen name="margin_medium">24dp</dimen>
     <dimen name="item_label">16dp</dimen>
     <dimen name="group_label">20dp</dimen>
+    <dimen name="margin_x_small">8dp</dimen>
 
 </resources>

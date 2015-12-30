@@ -10,5 +10,11 @@
     <string name="auton_mode">Autonomous</string>
     <string name="can_auton">Does it have an Autonomous?</string>
     <string name="n_totes">How many totes does it pickup?</string>
+    <string name="n_cans">How man cans can it burgle?</string>
+    <string name="can_stack">Can it make an auton stack?</string>
+    <string name="teleop_mode">Tele-Operated</string>
+    <string name="pickup">Where does it get totes?</string>
+    <string name="human_pickup">Human Station</string>
+    <string name="landfill">Landfill</string>
 
 </resources>
