@@ -1,4 +1,4 @@
-package com.petoskeypaladins.recyclerushscouting;
+package com.petoskeypaladins.frcscoutingapp;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

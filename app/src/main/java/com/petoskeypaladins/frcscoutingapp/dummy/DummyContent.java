@@ -1,4 +1,4 @@
-package com.petoskeypaladins.recyclerushscouting.dummy;
+package com.petoskeypaladins.frcscoutingapp.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

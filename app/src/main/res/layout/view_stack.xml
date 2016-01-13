@@ -1,0 +1,98 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView android:id="@+id/stack_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/group_label"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <RelativeLayout android:id="@+id/tote_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stack_label">
+
+        <TextView android:id="@+id/stack_totes_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stack_totes"
+            android:textSize="@dimen/item_label"
+            android:textColor="@color/black"
+            android:layout_alignTop="@+id/stack_totes"
+            android:layout_alignBottom="@+id/stack_totes"
+            android:gravity="center_vertical" />
+
+        <RadioGroup android:id="@+id/stack_totes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/stack_totes_label"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal">
+
+            <RadioButton android:id="@+id/one_tote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="@dimen/item_label"
+                android:textColor="@color/black" />
+
+            <RadioButton android:id="@+id/two_tote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textSize="@dimen/item_label"
+                android:textColor="@color/black" />
+
+            <RadioButton android:id="@+id/three_tote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textSize="@dimen/item_label"
+                android:textColor="@color/black" />
+
+            <RadioButton android:id="@+id/four_tote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4"
+                android:textSize="@dimen/item_label"
+                android:textColor="@color/black" />
+
+            <RadioButton android:id="@+id/five_tote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textSize="@dimen/item_label"
+                android:textColor="@color/black" />
+
+            <RadioButton android:id="@+id/six_tote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6"
+                android:textSize="@dimen/item_label"
+                android:textColor="@color/black" />
+
+        </RadioGroup>
+
+    </RelativeLayout>
+
+    <RelativeLayout android:id="@+id/can_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tote_data">
+
+        <CheckBox android:id="@+id/stack_can"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stack_can" />
+
+        <CheckBox android:id="@+id/can_noodle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/can_noodle"
+            android:layout_toRightOf="@id/stack_can"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

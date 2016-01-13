@@ -1,20 +1,28 @@
 <resources>
-    <string name="app_name">Recycle Rush Scouting</string>
+    <string name="app_name">FRC Scouting App 2016</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="scouting_sheet_title">Create a New Scouting Sheet!</string>
     <string name="auton_mode">Autonomous</string>
     <string name="can_auton">Does it have an Autonomous?</string>
     <string name="n_totes">How many totes does it pickup?</string>
-    <string name="n_cans">How man cans can it burgle?</string>
+    <string name="n_cans">How many cans can it burgle?</string>
     <string name="can_stack">Can it make an auton stack?</string>
     <string name="teleop_mode">Tele-Operated</string>
     <string name="pickup">Where does it get totes?</string>
     <string name="human_pickup">Human Station</string>
-    <string name="landfill">Landfill</string>
-
+    <string name="landfill_pickup">Landfill</string>
+    <string name="stacks_label">Stacks</string>
+    <string name="add_stack">New Stack</string>
+    <string name="stack_totes">How Many Totes?</string>
+    <string name="stack_can">Container</string>
+    <string name="can_noodle">Noodle</string>
+    <string name="remove_stack">Remove Stack</string>
+    <string name="submit">Submit</string>
+    <string name="round_number">Round</string>
+    <string name="team_number">Team</string>
 </resources>

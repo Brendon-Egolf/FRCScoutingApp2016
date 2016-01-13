@@ -1,11 +1,11 @@
-package com.petoskeypaladins.recyclerushscouting;
+package com.petoskeypaladins.frcscoutingapp;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
+import android.view.WindowManager;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

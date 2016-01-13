@@ -1,4 +1,4 @@
-package com.petoskeypaladins.recyclerushscouting;
+package com.petoskeypaladins.frcscoutingapp;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 
-import com.petoskeypaladins.recyclerushscouting.dummy.DummyContent;
+import com.petoskeypaladins.frcscoutingapp.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.

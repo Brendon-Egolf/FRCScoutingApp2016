@@ -1,4 +1,4 @@
-package com.petoskeypaladins.recyclerushscouting;
+package com.petoskeypaladins.frcscoutingapp;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

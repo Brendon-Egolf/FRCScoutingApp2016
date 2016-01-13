@@ -1,11 +1,37 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:id="@+id/scroll_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.petoskeypaladins.recyclerushscouting.ScoutingSheet">
+    android:layout_height="wrap_content"
+    tools:context="com.petoskeypaladins.frcscoutingapp.ScoutingSheet">
 
-    <RelativeLayout
+
+    <RelativeLayout android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants">
+
+
+
+
+        <EditText android:id="@+id/round_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_x_small"
+            android:gravity="center_horizontal"
+            android:hint="@string/round_number"
+            android:imeOptions="actionDone"/>
+
+        <EditText android:id="@+id/team_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_marginTop="@dimen/margin_x_small"
+            android:hint="@string/team_number"
+            android:gravity="center_horizontal"
+            android:layout_toRightOf="@id/round_number"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -14,8 +40,8 @@
             android:text="@string/auton_mode"
             android:textSize="@dimen/header"
             android:layout_marginLeft="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_small"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@id/round_number"/>
 
         <CheckBox android:id="@+id/can_auton"
             android:layout_width="wrap_content"
@@ -75,6 +101,8 @@
                 android:text="3"
                 android:textSize="@dimen/item_label"/>
 
+
+
         </RadioGroup>
 
         <CheckBox android:id="@+id/can_stack"
@@ -86,7 +114,7 @@
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_x_small"/>
 
-        <TextView android:id="@+id/can_can"
+        <TextView android:id="@+id/can_can_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/can_stack"
@@ -96,10 +124,10 @@
             android:layout_marginTop="@dimen/margin_x_small"
             android:textColor="@color/black"/>
 
-        <RadioGroup android:id="@+id/can_burgle"
+        <RadioGroup android:id="@+id/can_can"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/can_can"
+            android:layout_below="@id/can_can_label"
             android:orientation="horizontal"
             android:layout_marginLeft="@dimen/margin_small"
             android:checkedButton="@+id/zero_auton_can">
@@ -136,6 +164,14 @@
                 android:textSize="@dimen/item_label"
                 />
 
+            <RadioButton android:id="@+id/four_auton_can"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:text="4"
+                android:textSize="@dimen/item_label"
+                />
+
         </RadioGroup>
 
         <TextView android:id="@+id/teleop_label"
@@ -143,7 +179,7 @@
             android:layout_height="wrap_content"
             android:text="@string/teleop_mode"
             android:textSize="@dimen/header"
-            android:layout_below="@id/can_burgle"
+            android:layout_below="@id/can_can"
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_small"
             android:textStyle="bold" />
@@ -162,13 +198,79 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/pickup_label"
-            >
+            android:layout_marginLeft="@dimen/margin_small">
+
             <RadioButton android:id="@+id/human_pickup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:text="@string/human_pickup"
+                android:textSize="@dimen/item_label"
+                android:layout_marginLeft="@dimen/margin_small"/>
+
+            <RadioButton android:id="@+id/landfill_pickup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/landfill_pickup"
+                android:textSize="@dimen/item_label"
+                android:layout_marginLeft="@dimen/margin_small"/>
+
         </RadioGroup>
+
+        <TextView android:id="@+id/stacks_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stacks_label"
+            android:textSize="@dimen/sub_header"
+            android:textColor="@color/black"
+            android:layout_below="@id/pickup"
+            android:layout_marginTop="@dimen/margin_x_small"
+            android:layout_marginLeft="@dimen/margin_small"/>
+
+        <Button android:id="@+id/add_stack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_stack"
+            android:onClick="addStack"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_below="@id/stacks_label"/>
+
+        <Button android:id="@+id/remove_stack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remove_stack"
+            android:layout_alignTop="@+id/add_stack"
+            android:layout_toRightOf="@+id/add_stack" />
+
+        <LinearLayout android:id="@+id/stack_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/add_stack"
+            android:layout_marginLeft="@dimen/margin_small">
+
+
+
+
+
+        </LinearLayout>
+
+        <Button android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stack_container"
+            android:text="@string/submit"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_large" />
+
+        <LinearLayout android:id="@+id/spotlight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+            <requestFocus />
+        </LinearLayout>
+
 
     </RelativeLayout>
 
-</FrameLayout>
+</ScrollView>

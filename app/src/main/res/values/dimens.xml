@@ -7,10 +7,13 @@
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
     <dimen name="header">32dp</dimen>
+    <dimen name="sub_header">24dp</dimen>
     <dimen name="margin_small">16dp</dimen>
     <dimen name="margin_medium">24dp</dimen>
     <dimen name="item_label">16dp</dimen>
     <dimen name="group_label">20dp</dimen>
     <dimen name="margin_x_small">8dp</dimen>
+    <dimen name="margin_large">96dp</dimen>
+
 
 </resources>
