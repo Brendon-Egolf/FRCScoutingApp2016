@@ -52,10 +52,46 @@
             android:text="@string/can_auton"
             android:textSize="@dimen/item_label"
             android:layout_marginLeft="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_x_small"
+            android:layout_marginTop="@dimen/margin_x_small" />
 
-            />
+        <Spinner android:id="@+id/auton_defense_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/can_auton"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:visibility="gone"/>
 
+        <CheckBox android:id="@+id/can_auton_shoot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/can_auton_shoot"
+            android:textSize="@dimen/item_label"
+            android:layout_below="@id/auton_defense_cross"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:visibility="gone"/>
+
+        <RadioGroup android:id="@+id/auton_shoot_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_below="@id/can_auton_shoot"
+            android:visibility="gone">
+
+            <RadioButton android:id="@+id/auton_high_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auton_high_goal"
+                android:textSize="@dimen/item_label"
+                android:layout_marginLeft="@dimen/margin_small"/>
+
+            <RadioButton android:id="@+id/auton_low_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/auton_low_goal"
+                android:textSize="@dimen/item_label"
+                android:layout_marginLeft="@dimen/margin_small"/>
+
+        </RadioGroup>
 
 
         <TextView android:id="@+id/teleop_label"
@@ -63,12 +99,12 @@
             android:layout_height="wrap_content"
             android:text="@string/teleop_mode"
             android:textSize="@dimen/header"
-            android:layout_below="@+id/can_auton"
+            android:layout_below="@id/auton_shoot_type"
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_small"
             android:textStyle="bold" />
 
-
+        
 
 
 

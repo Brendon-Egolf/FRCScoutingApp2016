@@ -1,6 +1,5 @@
 package com.petoskeypaladins.frcscoutingapp;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -8,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,16 +75,52 @@ public class ScoutingSheet extends Fragment {
             }
         });
 
+        final Spinner autonDefenseSpinner = (Spinner) view.findViewById(R.id.auton_defense_cross);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.defenses, android.R.layout.simple_spinner_dropdown_item);
+
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        autonDefenseSpinner.setAdapter(arrayAdapter);
+
+        final CheckBox canAuton = (CheckBox) view.findViewById(R.id.can_auton);
+        final CheckBox canAutonShoot = (CheckBox) view.findViewById(R.id.can_auton_shoot);
+        final RadioGroup autonShootType = (RadioGroup) view.findViewById(R.id.auton_shoot_type);
+
+        canAuton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (canAuton.isChecked()) {
+                    autonDefenseSpinner.setVisibility(View.VISIBLE);
+                    canAutonShoot.setVisibility(View.VISIBLE);
+                } else {
+                    autonDefenseSpinner.setVisibility(View.GONE);
+                    canAutonShoot.setVisibility(View.GONE);
+                    autonShootType.setVisibility(View.GONE);
+
+                    autonDefenseSpinner.setSelection(0);
+                    canAutonShoot.setChecked(false);
+                    autonShootType.clearCheck();
+                }
+            }
+        });
+
+        canAutonShoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (canAutonShoot.isChecked()) {
+                    autonShootType.setVisibility(View.VISIBLE);
+                } else {
+                    autonShootType.setVisibility(View.GONE);
+                    autonShootType.clearCheck();
+                }
+            }
+        });
 
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-
-    }
 
 
     public void submitForm() {
@@ -106,12 +143,7 @@ public class ScoutingSheet extends Fragment {
         toast.show();
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-    }
+
 
 
 }

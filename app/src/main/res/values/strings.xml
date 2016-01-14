@@ -25,4 +25,22 @@
     <string name="submit">Submit</string>
     <string name="round_number">Round</string>
     <string name="team_number">Team</string>
+    <string name="can_auton_shoot">Does it shoot?</string>
+    <string name="auton_high_goal">High Goal</string>
+    <string name="auton_low_goal">Low Goal</string>
+
+    <string-array name="defenses">
+        <item>What defense do they cross?</item>
+        <item>Portcullis</item>
+        <item>Cheval de Frise</item>
+        <item>Moat</item>
+        <item>Ramparts</item>
+        <item>Drawbridge</item>
+        <item>Sally Port</item>
+        <item>Rock Wall</item>
+        <item>Rough Terrain</item>
+        <item>Low Bar</item>
+        <item>None</item>
+
+    </string-array>
 </resources>
