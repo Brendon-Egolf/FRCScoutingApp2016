@@ -28,9 +28,10 @@
     <string name="can_auton_shoot">Does it shoot?</string>
     <string name="auton_high_goal">High Goal</string>
     <string name="auton_low_goal">Low Goal</string>
+    <string name="column_defense_type">Defense Type</string>
 
     <string-array name="defenses">
-        <item>What defense do they cross?</item>
+        <item>What defense did they cross?</item>
         <item>Portcullis</item>
         <item>Cheval de Frise</item>
         <item>Moat</item>

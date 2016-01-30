@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -116,6 +117,18 @@ public class ScoutingSheet extends Fragment {
                 }
             }
         });
+
+
+        final LinearLayout defenseList = (LinearLayout)view.findViewById(R.id.defense_list);
+        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams
+                (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        final int DEFENSES = 5;
+
+        for (int i = 0; i < DEFENSES; i++) {
+            defenseList.addView(new Defense(getContext()));
+        }
+
+
 
         return view;
     }

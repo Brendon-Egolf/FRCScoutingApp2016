@@ -10,14 +10,15 @@
         android:layout_height="match_parent"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:layout_marginLeft="@dimen/margin_small">
 
 
         <EditText android:id="@+id/round_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:layout_marginLeft="@dimen/margin_small"
+
             android:layout_marginTop="@dimen/margin_x_small"
             android:gravity="center_horizontal"
             android:hint="@string/round_number"
@@ -41,7 +42,7 @@
             android:id="@+id/auton_label"
             android:text="@string/auton_mode"
             android:textSize="@dimen/header"
-            android:layout_marginLeft="@dimen/margin_small"
+
             android:layout_below="@id/round_number"
             android:textStyle="bold" />
 
@@ -51,14 +52,14 @@
             android:layout_below="@id/auton_label"
             android:text="@string/can_auton"
             android:textSize="@dimen/item_label"
-            android:layout_marginLeft="@dimen/margin_small"
+
             android:layout_marginTop="@dimen/margin_x_small" />
 
         <Spinner android:id="@+id/auton_defense_cross"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/can_auton"
-            android:layout_marginLeft="@dimen/margin_small"
+
             android:visibility="gone"/>
 
         <CheckBox android:id="@+id/can_auton_shoot"
@@ -67,13 +68,13 @@
             android:text="@string/can_auton_shoot"
             android:textSize="@dimen/item_label"
             android:layout_below="@id/auton_defense_cross"
-            android:layout_marginLeft="@dimen/margin_small"
+
             android:visibility="gone"/>
 
         <RadioGroup android:id="@+id/auton_shoot_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_small"
+
             android:layout_below="@id/can_auton_shoot"
             android:visibility="gone">
 
@@ -82,14 +83,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/auton_high_goal"
                 android:textSize="@dimen/item_label"
-                android:layout_marginLeft="@dimen/margin_small"/>
+                />
 
             <RadioButton android:id="@+id/auton_low_goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/auton_low_goal"
                 android:textSize="@dimen/item_label"
-                android:layout_marginLeft="@dimen/margin_small"/>
+                />
 
         </RadioGroup>
 
@@ -100,20 +101,32 @@
             android:text="@string/teleop_mode"
             android:textSize="@dimen/header"
             android:layout_below="@id/auton_shoot_type"
-            android:layout_marginLeft="@dimen/margin_small"
+
             android:layout_marginTop="@dimen/margin_small"
             android:textStyle="bold" />
 
-        
+        <TextView android:id="@+id/column_defense_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/column_defense_type"
+            android:layout_below="@id/teleop_label"/>
+
+        <LinearLayout android:id="@+id/defense_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/column_defense_type"
+            android:orientation="vertical">
 
 
+
+        </LinearLayout>
 
         <Button android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/teleop_label"
+            android:layout_below="@id/defense_list"
             android:text="@string/submit"
-            android:layout_marginLeft="@dimen/margin_small"
+
             android:layout_marginBottom="@dimen/margin_large" />
 
 
