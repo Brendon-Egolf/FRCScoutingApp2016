@@ -8,7 +8,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="scouting_sheet_title">Create a New Scouting Sheet!</string>
     <string name="auton_mode">Autonomous</string>
-    <string name="can_auton">Does it have an Autonomous?</string>
+    <string name="can_auton">Autonomous?</string>
     <string name="n_totes">How many totes does it pickup?</string>
     <string name="n_cans">How many cans can it burgle?</string>
     <string name="can_stack">Can it make an auton stack?</string>
@@ -26,12 +26,17 @@
     <string name="round_number">Round</string>
     <string name="team_number">Team</string>
     <string name="can_auton_shoot">Does it shoot?</string>
-    <string name="auton_high_goal">High Goal</string>
-    <string name="auton_low_goal">Low Goal</string>
+    <string name="high_goal">High Goal</string>
+    <string name="low_goal">Low Goal</string>
     <string name="column_defense_type">Defense Type</string>
+    <string name="high_goal_shots">High goal shots</string>
+    <string name="low_goal_shots">Low goal shots</string>
+
 
     <string-array name="defenses">
-        <item>What defense did they cross?</item>
+        <item>Defense crossed?</item>
+        <item>None</item>
+        <item>Low Bar</item>
         <item>Portcullis</item>
         <item>Cheval de Frise</item>
         <item>Moat</item>
@@ -40,8 +45,24 @@
         <item>Sally Port</item>
         <item>Rock Wall</item>
         <item>Rough Terrain</item>
-        <item>Low Bar</item>
-        <item>None</item>
-
     </string-array>
+
+    <string-array name="teleop_defenses">
+        <item>Defense crossed?</item>
+        <item>Portcullis</item>
+        <item>Cheval de Frise</item>
+        <item>Moat</item>
+        <item>Ramparts</item>
+        <item>Drawbridge</item>
+        <item>Sally Port</item>
+        <item>Rock Wall</item>
+        <item>Rough Terrain</item>
+    </string-array>
+
+    <!-- I know this is terrible practice but I DON'T CARE!!!!!!!!!!!!!!!!!!!!!-->
+    <string-array name="low_bar">
+        <item>Low Bar</item>
+    </string-array>
+
+
 </resources>

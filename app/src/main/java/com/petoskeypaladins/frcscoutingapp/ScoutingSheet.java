@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 
 public class ScoutingSheet extends Fragment {
-
+    private int highGoalCount, lowGoalCount;
 
 
 
@@ -49,7 +49,7 @@ public class ScoutingSheet extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitForm();
+                submitForm(view);
             }
         });
 
@@ -58,23 +58,14 @@ public class ScoutingSheet extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    roundNumber.clearFocus();
+                    teamNumber.requestFocus();
+
                 }
 
                 return false;
             }
         });
 
-        teamNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    teamNumber.clearFocus();
-                }
-
-                return false;
-            }
-        });
 
         final Spinner autonDefenseSpinner = (Spinner) view.findViewById(R.id.auton_defense_cross);
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(getContext(),
@@ -125,8 +116,67 @@ public class ScoutingSheet extends Fragment {
         final int DEFENSES = 5;
 
         for (int i = 0; i < DEFENSES; i++) {
-            defenseList.addView(new Defense(getContext()));
+            defenseList.addView(new Defense(getContext(), (i == 0)));
         }
+
+        final Button highGoalAdd = (Button) view.findViewById(R.id.high_goal_add);
+        final TextView highGoalNumber = (TextView) view.findViewById(R.id.high_goal_number);
+        final Button highGoalSubtract = (Button) view.findViewById(R.id.high_goal_subtract);
+        final Button lowGoalAdd = (Button) view.findViewById(R.id.low_goal_add);
+        final TextView lowGoalNumber = (TextView) view.findViewById(R.id.low_goal_number);
+        final Button lowGoalSubtract = (Button) view.findViewById(R.id.low_goal_subtract);
+
+        highGoalCount = 0;
+        highGoalNumber.setText(Integer.toString(highGoalCount));
+        lowGoalCount = 0;
+        lowGoalNumber.setText(Integer.toString(lowGoalCount));
+
+
+        highGoalSubtract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                highGoalCount--;
+                highGoalNumber.setText(Integer.toString(highGoalCount));
+                if (highGoalCount == 0) {
+                    highGoalSubtract.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        highGoalAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                highGoalCount++;
+                highGoalNumber.setText(Integer.toString(highGoalCount));
+                if (highGoalCount > 0) {
+                    highGoalSubtract.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+        lowGoalSubtract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lowGoalCount--;
+                lowGoalNumber.setText(Integer.toString(lowGoalCount));
+                if (lowGoalCount == 0) {
+                    lowGoalSubtract.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        lowGoalAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lowGoalCount++;
+                lowGoalNumber.setText(Integer.toString(lowGoalCount));
+                if (lowGoalCount > 0) {
+                    lowGoalSubtract.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
 
 
 
@@ -136,19 +186,11 @@ public class ScoutingSheet extends Fragment {
 
 
 
-    public void submitForm() {
-
-        EditText roundNumber = (EditText)getView().findViewById(R.id.round_number);
-        EditText teamNumber = (EditText) getView().findViewById(R.id.team_number);
-        CheckBox canAuton = (CheckBox) getView().findViewById(R.id.can_auton);
-
-
+    public void submitForm(View view) {
 
     }
 
-    public void writeData(View view) {
 
-    }
 
 
     public void alert() {

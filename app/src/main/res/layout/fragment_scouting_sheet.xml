@@ -1,137 +1,197 @@
-<ScrollView android:id="@+id/scroll_view"
+<RelativeLayout
+    tools:context="com.petoskeypaladins.frcscoutingapp.ScoutingSheet"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.petoskeypaladins.frcscoutingapp.ScoutingSheet">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_marginLeft="@dimen/margin_small">
 
 
-    <RelativeLayout android:id="@+id/main_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="beforeDescendants"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_marginLeft="@dimen/margin_small">
+    <EditText android:id="@+id/round_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+
+        android:layout_marginTop="@dimen/margin_x_small"
+        android:gravity="center_horizontal"
+        android:hint="@string/round_number"
+        android:imeOptions="actionDone"/>
+
+    <EditText android:id="@+id/team_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:layout_marginTop="@dimen/margin_x_small"
+        android:hint="@string/team_number"
+        android:gravity="center_horizontal"
+        android:layout_toRightOf="@id/round_number"
+        android:imeOptions="actionDone"/>
 
 
-        <EditText android:id="@+id/round_number"
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/auton_label"
+        android:text="@string/auton_mode"
+        android:textSize="@dimen/header"
+
+        android:layout_below="@id/round_number"
+        android:textStyle="bold" />
+
+    <CheckBox android:id="@+id/can_auton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/auton_label"
+        android:text="@string/can_auton"
+        android:textSize="@dimen/item_label"
+
+        android:layout_marginTop="@dimen/margin_x_small" />
+
+    <Spinner android:id="@+id/auton_defense_cross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/can_auton"
+        android:layout_toRightOf="@+id/can_auton_shoot"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:visibility="gone"/>
+
+    <CheckBox android:id="@+id/can_auton_shoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/can_auton_shoot"
+        android:textSize="@dimen/item_label"
+        android:layout_below="@id/can_auton"
+        android:layout_alignTop="@id/auton_defense_cross"
+        android:layout_alignBottom="@id/auton_defense_cross"
+        android:gravity="center_vertical"
+        android:visibility="gone"/>
+
+    <RadioGroup android:id="@+id/auton_shoot_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/can_auton_shoot"
+        android:layout_below="@id/can_auton_shoot"
+        android:checkedButton="@+id/auton_low_goal"
+        android:visibility="gone">
+
+        <RadioButton android:id="@+id/auton_low_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:text="@string/low_goal"
+            android:textSize="@dimen/item_label" />
 
-            android:layout_marginTop="@dimen/margin_x_small"
-            android:gravity="center_horizontal"
-            android:hint="@string/round_number"
-            android:imeOptions="actionDone"/>
-
-        <EditText android:id="@+id/team_number"
+        <RadioButton android:id="@+id/auton_high_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_marginTop="@dimen/margin_x_small"
-            android:hint="@string/team_number"
-            android:gravity="center_horizontal"
-            android:layout_toRightOf="@id/round_number"
-            android:imeOptions="actionDone"/>
+            android:text="@string/high_goal"
+            android:textSize="@dimen/item_label" />
+
+    </RadioGroup>
 
 
+    <TextView android:id="@+id/teleop_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/teleop_mode"
+        android:textSize="@dimen/header"
+        android:layout_below="@id/auton_shoot_type"
 
-        <TextView
+        android:layout_marginTop="@dimen/margin_small"
+        android:textStyle="bold" />
+
+    <LinearLayout android:id="@+id/defense_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/teleop_label"
+        android:orientation="vertical" />
+
+    <LinearLayout android:id="@+id/high_goal_shots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/defense_list">
+
+        <TextView android:id="@+id/high_goal_shots_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/auton_label"
-            android:text="@string/auton_mode"
-            android:textSize="@dimen/header"
-
-            android:layout_below="@id/round_number"
-            android:textStyle="bold" />
-
-        <CheckBox android:id="@+id/can_auton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/auton_label"
-            android:text="@string/can_auton"
+            android:layout_height="match_parent"
+            android:text="@string/high_goal_shots"
+            android:textColor="@color/black"
             android:textSize="@dimen/item_label"
+            android:gravity="center_vertical"/>
 
-            android:layout_marginTop="@dimen/margin_x_small" />
+        <Button android:id="@+id/high_goal_subtract"
+            android:layout_width="@dimen/button"
+            android:layout_height="match_parent"
+            android:text="-"
+            android:textSize="32dp"
+            android:visibility="invisible"/>
 
-        <Spinner android:id="@+id/auton_defense_cross"
+        <TextView android:id="@+id/high_goal_number"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/can_auton"
+            android:layout_height="match_parent"
+            android:textSize="32dp"
 
-            android:visibility="gone"/>
+            android:gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
 
-        <CheckBox android:id="@+id/can_auton_shoot"
+        <Button android:id="@+id/high_goal_add"
+            android:layout_width="@dimen/button"
+            android:layout_height="match_parent"
+            android:text="+"
+            android:textSize="32dp" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/low_goal_shots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/defense_list"
+        android:layout_toRightOf="@id/high_goal_shots">
+        <TextView android:id="@+id/low_goal_shots_label"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/can_auton_shoot"
+            android:layout_height="match_parent"
+            android:text="@string/low_goal_shots"
+            android:textColor="@color/black"
             android:textSize="@dimen/item_label"
-            android:layout_below="@id/auton_defense_cross"
+            android:gravity="center_vertical"/>
 
-            android:visibility="gone"/>
+        <Button android:id="@+id/low_goal_subtract"
+            android:layout_width="@dimen/button"
+            android:layout_height="match_parent"
+            android:text="-"
+            android:textSize="32dp"
+            android:visibility="invisible"/>
 
-        <RadioGroup android:id="@+id/auton_shoot_type"
+        <TextView android:id="@+id/low_goal_number"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="32dp"
 
-            android:layout_below="@id/can_auton_shoot"
-            android:visibility="gone">
+            android:gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"/>
 
-            <RadioButton android:id="@+id/auton_high_goal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/auton_high_goal"
-                android:textSize="@dimen/item_label"
-                />
+        <Button android:id="@+id/low_goal_add"
+            android:layout_width="@dimen/button"
+            android:layout_height="match_parent"
+            android:text="+"
+            android:textSize="32dp" />
+    </LinearLayout>
 
-            <RadioButton android:id="@+id/auton_low_goal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/auton_low_goal"
-                android:textSize="@dimen/item_label"
-                />
+    <Button android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/high_goal_shots"
+        android:text="@string/submit"
 
-        </RadioGroup>
+        android:layout_marginBottom="@dimen/margin_large" />
 
-
-        <TextView android:id="@+id/teleop_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/teleop_mode"
-            android:textSize="@dimen/header"
-            android:layout_below="@id/auton_shoot_type"
-
-            android:layout_marginTop="@dimen/margin_small"
-            android:textStyle="bold" />
-
-        <TextView android:id="@+id/column_defense_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/column_defense_type"
-            android:layout_below="@id/teleop_label"/>
-
-        <LinearLayout android:id="@+id/defense_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/column_defense_type"
-            android:orientation="vertical">
+</RelativeLayout>
 
 
-
-        </LinearLayout>
-
-        <Button android:id="@+id/submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/defense_list"
-            android:text="@string/submit"
-
-            android:layout_marginBottom="@dimen/margin_large" />
-
-
-
-
-    </RelativeLayout>
-
-</ScrollView>

@@ -14,6 +14,7 @@
     <dimen name="group_label">20dp</dimen>
     <dimen name="margin_x_small">8dp</dimen>
     <dimen name="margin_large">96dp</dimen>
+    <dimen name="button">64dp</dimen>
 
 
 </resources>
