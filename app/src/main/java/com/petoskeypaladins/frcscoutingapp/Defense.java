@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class Defense extends LinearLayout {
@@ -30,7 +29,6 @@ public class Defense extends LinearLayout {
         defensePasses = 0;
         updatePasses(passes, defensePasses);
         if (lowBar) {
-            Toast.makeText(context, "shorty got low low low low low low low low.", Toast.LENGTH_SHORT).show();
             arrayAdapter = ArrayAdapter.createFromResource(getContext(),
                     R.array.low_bar, android.R.layout.simple_spinner_dropdown_item);
         } else {

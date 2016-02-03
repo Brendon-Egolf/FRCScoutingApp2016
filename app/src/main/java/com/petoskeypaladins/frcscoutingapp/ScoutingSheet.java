@@ -23,7 +23,7 @@ import java.io.FileWriter;
 
 
 public class ScoutingSheet extends Fragment {
-    private int highGoalCount, lowGoalCount;
+    private int highGoalMadeCount, highGoalMissedCount, lowGoalMadeCount, lowGoalMissedCount;
 
 
 
@@ -153,48 +153,79 @@ public class ScoutingSheet extends Fragment {
             }
         });
 
-        final Button highMadeGoalAdd = (Button) view.findViewById(R.id.high_goal_made_add);
+        final Button highGoalMadeAdd = (Button) view.findViewById(R.id.high_goal_made_add);
         final TextView highGoalMadeNumber = (TextView) view.findViewById(R.id.high_goal_made_number);
         final Button highGoalMadeSubtract = (Button) view.findViewById(R.id.high_goal_made_subtract);
+        final Button highGoalMissedAdd = (Button) view.findViewById(R.id.high_goal_missed_add);
+        final TextView highGoalMissedNumber = (TextView) view.findViewById(R.id.high_goal_missed_number);
+        final Button highGoalMissedSubtract = (Button) view.findViewById(R.id.high_goal_missed_subtract);
         final Button lowGoalMadeAdd = (Button) view.findViewById(R.id.low_goal_made_add);
         final TextView lowGoalMadeNumber = (TextView) view.findViewById(R.id.low_goal_made_number);
         final Button lowGoalMadeSubtract = (Button) view.findViewById(R.id.low_goal_made_subtract);
+        final Button lowGoalMissedAdd = (Button) view.findViewById(R.id.low_goal_missed_add);
+        final TextView lowGoalMissedNumber = (TextView) view.findViewById(R.id.low_goal_missed_number);
+        final Button lowGoalMissedSubtract = (Button) view.findViewById(R.id.low_goal_missed_subtract);
 
-        highGoalCount = 0;
-        highGoalMadeNumber.setText(Integer.toString(highGoalCount));
-        lowGoalCount = 0;
-        lowGoalMadeNumber.setText(Integer.toString(lowGoalCount));
+        highGoalMadeCount = 0;
+        highGoalMadeNumber.setText(Integer.toString(highGoalMadeCount));
+        highGoalMissedCount = 0;
+        highGoalMissedNumber.setText(Integer.toString(highGoalMissedCount));
+        lowGoalMadeCount = 0;
+        lowGoalMadeNumber.setText(Integer.toString(lowGoalMadeCount));
+        lowGoalMissedCount = 0;
+        lowGoalMissedNumber.setText(Integer.toString(lowGoalMissedCount));
 
 
         highGoalMadeSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                highGoalCount--;
-                highGoalMadeNumber.setText(Integer.toString(highGoalCount));
-                if (highGoalCount == 0) {
+                highGoalMadeCount--;
+                highGoalMadeNumber.setText(Integer.toString(highGoalMadeCount));
+                if (highGoalMadeCount == 0) {
                     highGoalMadeSubtract.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        highMadeGoalAdd.setOnClickListener(new View.OnClickListener() {
+        highGoalMadeAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                highGoalCount++;
-                highGoalMadeNumber.setText(Integer.toString(highGoalCount));
-                if (highGoalCount > 0) {
+                highGoalMadeCount++;
+                highGoalMadeNumber.setText(Integer.toString(highGoalMadeCount));
+                if (highGoalMadeCount > 0) {
                     highGoalMadeSubtract.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        highGoalMissedSubtract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                highGoalMissedCount--;
+                highGoalMissedNumber.setText(Integer.toString(highGoalMissedCount));
+                if (highGoalMissedCount == 0) {
+                    highGoalMissedSubtract.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        highGoalMissedAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                highGoalMissedCount++;
+                highGoalMissedNumber.setText(Integer.toString(highGoalMissedCount));
+                if (highGoalMissedCount > 0) {
+                    highGoalMissedSubtract.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         lowGoalMadeSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lowGoalCount--;
-                lowGoalMadeNumber.setText(Integer.toString(lowGoalCount));
-                if (lowGoalCount == 0) {
+                lowGoalMadeCount--;
+                lowGoalMadeNumber.setText(Integer.toString(lowGoalMadeCount));
+                if (lowGoalMadeCount == 0) {
                     lowGoalMadeSubtract.setVisibility(View.INVISIBLE);
                 }
             }
@@ -203,15 +234,35 @@ public class ScoutingSheet extends Fragment {
         lowGoalMadeAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lowGoalCount++;
-                lowGoalMadeNumber.setText(Integer.toString(lowGoalCount));
-                if (lowGoalCount > 0) {
+                lowGoalMadeCount++;
+                lowGoalMadeNumber.setText(Integer.toString(lowGoalMadeCount));
+                if (lowGoalMadeCount > 0) {
                     lowGoalMadeSubtract.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        lowGoalMissedSubtract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lowGoalMissedCount--;
+                lowGoalMissedNumber.setText(Integer.toString(lowGoalMissedCount));
+                if (lowGoalMissedCount == 0) {
+                    lowGoalMissedSubtract.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
 
+        lowGoalMissedAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lowGoalMissedCount++;
+                lowGoalMissedNumber.setText(Integer.toString(lowGoalMissedCount));
+                if (lowGoalMissedCount > 0) {
+                    lowGoalMissedSubtract.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
 
         return view;
@@ -243,6 +294,7 @@ public class ScoutingSheet extends Fragment {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(getContext(), "IO error", Toast.LENGTH_SHORT).show();
         }
     }
 
