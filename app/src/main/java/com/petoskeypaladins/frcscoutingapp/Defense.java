@@ -67,4 +67,13 @@ public class Defense extends LinearLayout {
         passes.setText(Integer.toString(defensePasses));
     }
 
+    public String getDefense() {
+        Spinner defense = (Spinner) getRootView().findViewById(R.id.defense_type);
+        return (String) defense.getSelectedItem();
+    }
+
+    public int getDefensePasses() {
+        return defensePasses;
+    }
+
 }

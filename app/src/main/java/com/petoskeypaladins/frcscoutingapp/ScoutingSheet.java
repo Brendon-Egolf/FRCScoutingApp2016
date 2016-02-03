@@ -17,6 +17,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+
 
 public class ScoutingSheet extends Fragment {
     private int highGoalCount, lowGoalCount;
@@ -67,7 +71,22 @@ public class ScoutingSheet extends Fragment {
         });
 
 
-        final Spinner autonDefenseSpinner = (Spinner) view.findViewById(R.id.auton_defense_cross);
+//        final ScrollView scroll = (ScrollView)view.findViewById(R.id.scrollView);
+//        scroll.setOnTouchListener(new View.OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (roundNumber.hasFocus()) {
+//                    roundNumber.clearFocus();
+//                }
+//                if (teamNumber.hasFocus()) {
+//                    teamNumber.clearFocus();
+//                }
+//                return false;
+//            }
+//        });
+
+        final Spinner autonDefenseSpinner = (Spinner) view.findViewById(R.id.auton_defense);
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.defenses, android.R.layout.simple_spinner_dropdown_item);
 
@@ -119,60 +138,75 @@ public class ScoutingSheet extends Fragment {
             defenseList.addView(new Defense(getContext(), (i == 0)));
         }
 
-        final Button highGoalAdd = (Button) view.findViewById(R.id.high_goal_add);
-        final TextView highGoalNumber = (TextView) view.findViewById(R.id.high_goal_number);
-        final Button highGoalSubtract = (Button) view.findViewById(R.id.high_goal_subtract);
-        final Button lowGoalAdd = (Button) view.findViewById(R.id.low_goal_add);
-        final TextView lowGoalNumber = (TextView) view.findViewById(R.id.low_goal_number);
-        final Button lowGoalSubtract = (Button) view.findViewById(R.id.low_goal_subtract);
+        final CheckBox canCapture = (CheckBox) view.findViewById(R.id.can_capture);
+        final CheckBox canClimb = (CheckBox) view.findViewById(R.id.can_climb);
+
+        canCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (canCapture.isChecked()) {
+                    canClimb.setVisibility(View.VISIBLE);
+                } else {
+                    canClimb.setVisibility(View.GONE);
+                    canClimb.setChecked(false);
+                }
+            }
+        });
+
+        final Button highMadeGoalAdd = (Button) view.findViewById(R.id.high_goal_made_add);
+        final TextView highGoalMadeNumber = (TextView) view.findViewById(R.id.high_goal_made_number);
+        final Button highGoalMadeSubtract = (Button) view.findViewById(R.id.high_goal_made_subtract);
+        final Button lowGoalMadeAdd = (Button) view.findViewById(R.id.low_goal_made_add);
+        final TextView lowGoalMadeNumber = (TextView) view.findViewById(R.id.low_goal_made_number);
+        final Button lowGoalMadeSubtract = (Button) view.findViewById(R.id.low_goal_made_subtract);
 
         highGoalCount = 0;
-        highGoalNumber.setText(Integer.toString(highGoalCount));
+        highGoalMadeNumber.setText(Integer.toString(highGoalCount));
         lowGoalCount = 0;
-        lowGoalNumber.setText(Integer.toString(lowGoalCount));
+        lowGoalMadeNumber.setText(Integer.toString(lowGoalCount));
 
 
-        highGoalSubtract.setOnClickListener(new View.OnClickListener() {
+        highGoalMadeSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 highGoalCount--;
-                highGoalNumber.setText(Integer.toString(highGoalCount));
+                highGoalMadeNumber.setText(Integer.toString(highGoalCount));
                 if (highGoalCount == 0) {
-                    highGoalSubtract.setVisibility(View.INVISIBLE);
+                    highGoalMadeSubtract.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        highGoalAdd.setOnClickListener(new View.OnClickListener() {
+        highMadeGoalAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 highGoalCount++;
-                highGoalNumber.setText(Integer.toString(highGoalCount));
+                highGoalMadeNumber.setText(Integer.toString(highGoalCount));
                 if (highGoalCount > 0) {
-                    highGoalSubtract.setVisibility(View.VISIBLE);
+                    highGoalMadeSubtract.setVisibility(View.VISIBLE);
                 }
             }
         });
 
 
-        lowGoalSubtract.setOnClickListener(new View.OnClickListener() {
+        lowGoalMadeSubtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lowGoalCount--;
-                lowGoalNumber.setText(Integer.toString(lowGoalCount));
+                lowGoalMadeNumber.setText(Integer.toString(lowGoalCount));
                 if (lowGoalCount == 0) {
-                    lowGoalSubtract.setVisibility(View.INVISIBLE);
+                    lowGoalMadeSubtract.setVisibility(View.INVISIBLE);
                 }
             }
         });
 
-        lowGoalAdd.setOnClickListener(new View.OnClickListener() {
+        lowGoalMadeAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lowGoalCount++;
-                lowGoalNumber.setText(Integer.toString(lowGoalCount));
+                lowGoalMadeNumber.setText(Integer.toString(lowGoalCount));
                 if (lowGoalCount > 0) {
-                    lowGoalSubtract.setVisibility(View.VISIBLE);
+                    lowGoalMadeSubtract.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -187,7 +221,29 @@ public class ScoutingSheet extends Fragment {
 
 
     public void submitForm(View view) {
+        EditText roundNumber = (EditText) view.findViewById(R.id.round_number);
+        EditText teamNumber = (EditText) view.findViewById(R.id.team_number);
+        CheckBox canAuton = (CheckBox) view.findViewById(R.id.can_auton);
+        Spinner autonDefense = (Spinner) view.findViewById(R.id.auton_defense);
+        CheckBox canAutonShoot = (CheckBox) view.findViewById(R.id.can_auton_shoot);
+        RadioGroup autonShootType = (RadioGroup) view.findViewById(R.id.auton_shoot_type);
+        LinearLayout teleopDefenses = (LinearLayout) view.findViewById(R.id.defense_list);
 
+
+
+        try {
+            String fileName = teamNumber.getText().toString();
+            File file = new File("/storage/emulated/0/scouting/" + fileName + ".csv");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            BufferedWriter bufferedWriter;
+            bufferedWriter = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
