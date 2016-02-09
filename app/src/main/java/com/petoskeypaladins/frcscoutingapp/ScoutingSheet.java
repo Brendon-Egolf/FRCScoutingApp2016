@@ -508,12 +508,7 @@ public class ScoutingSheet extends Fragment {
             Toast.makeText(getContext(), "IO error", Toast.LENGTH_SHORT).show();
         }
 
-
-
-
         Toast.makeText(getContext(), "You have submitted your form to the scouting god.", Toast.LENGTH_SHORT).show();
-
-
     }
 
 
