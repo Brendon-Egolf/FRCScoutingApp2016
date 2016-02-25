@@ -20,7 +20,7 @@
     <string name="made">Made</string>
     <string name="missed">Missed</string>
     <string name="end_game">End Game</string>
-    <string name="capture">Did it capture?</string>
+    <string name="capture">Did it challenge?</string>
     <string name="climb">Did it climb?</string>
 
     <string-array name="defenses">
