@@ -9,5 +9,7 @@
     <color name="black">#000000</color>
     <color name="button">#3d41c1</color>
     <color name="tab_indicator">#d7d8f2</color>
+    <color name="primary_text_color">#000000</color>
+    <color name="secondary_text_color">#89000000</color>
 
 </resources>
