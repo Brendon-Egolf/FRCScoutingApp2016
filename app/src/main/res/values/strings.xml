@@ -53,6 +53,7 @@
     <string-array name="low_bar">
         <item>Low Bar</item>
     </string-array>
+    <string name="title_activity_team_data">TeamData</string>
 
 
 </resources>

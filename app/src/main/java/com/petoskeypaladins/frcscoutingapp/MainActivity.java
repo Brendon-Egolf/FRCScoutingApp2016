@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
 
-
 public class MainActivity extends AppCompatActivity {
-
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -31,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -40,8 +37,4 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new DataView(), "View Data");
         viewPager.setAdapter(adapter);
     }
-
-
-
-
 }

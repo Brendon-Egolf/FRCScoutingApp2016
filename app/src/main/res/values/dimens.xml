@@ -16,6 +16,7 @@
     <dimen name="margin_large">96dp</dimen>
     <dimen name="button">64dp</dimen>
     <dimen name="shoot_width">56dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 
 </resources>
