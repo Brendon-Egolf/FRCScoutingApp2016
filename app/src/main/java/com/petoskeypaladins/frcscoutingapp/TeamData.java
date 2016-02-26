@@ -20,10 +20,10 @@ public class TeamData extends AppCompatActivity {
 
         setContentView(R.layout.activity_team_data);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Team " + teamNumber + ", " + "teamName");
+        toolbar.setTitle("Team " + teamNumber + ", " + teamName);
         setSupportActionBar(toolbar);
 
-
+        
     }
 
 }
