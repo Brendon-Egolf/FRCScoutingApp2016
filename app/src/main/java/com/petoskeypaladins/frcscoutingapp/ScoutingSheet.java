@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -72,7 +71,7 @@ public class ScoutingSheet extends Fragment {
 
         final Spinner autonDefenseSpinner = (Spinner) view.findViewById(R.id.auton_defense);
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.defenses, android.R.layout.simple_spinner_dropdown_item);
+                R.array.auton_defenses, android.R.layout.simple_spinner_dropdown_item);
 
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -81,6 +80,7 @@ public class ScoutingSheet extends Fragment {
         final CheckBox canAuton = (CheckBox) view.findViewById(R.id.can_auton);
         final CheckBox canAutonShoot = (CheckBox) view.findViewById(R.id.can_auton_shoot);
         final RadioGroup autonShootType = (RadioGroup) view.findViewById(R.id.auton_shoot_type);
+        final CheckBox autonMadeShot = (CheckBox) view.findViewById(R.id.auton_made_shot);
 
         canAuton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,9 +105,12 @@ public class ScoutingSheet extends Fragment {
             public void onClick(View v) {
                 if (canAutonShoot.isChecked()) {
                     autonShootType.setVisibility(View.VISIBLE);
+                    autonMadeShot.setVisibility(View.VISIBLE);
                 } else {
                     autonShootType.setVisibility(View.GONE);
                     autonShootType.clearCheck();
+                    autonMadeShot.setVisibility(View.GONE);
+                    autonMadeShot.setChecked(false);
                 }
             }
         });
@@ -418,8 +421,8 @@ public class ScoutingSheet extends Fragment {
         Spinner autonDefense = (Spinner) view.findViewById(R.id.auton_defense);
         CheckBox canAutonShoot = (CheckBox) view.findViewById(R.id.can_auton_shoot);
         RadioGroup autonShootType = (RadioGroup) view.findViewById(R.id.auton_shoot_type);
-        LinearLayout teleopDefenses = (LinearLayout) view.findViewById(R.id.defense_list);
-        CheckBox capture = (CheckBox) view.findViewById(R.id.can_capture);
+        CheckBox autonMadeShot = (CheckBox) view.findViewById(R.id.auton_made_shot);
+        CheckBox challenge = (CheckBox) view.findViewById(R.id.can_capture);
         CheckBox climb = (CheckBox) view.findViewById(R.id.can_climb);
         Spinner defense1Type = (Spinner) view.findViewById(R.id.defense_1_type);
         Spinner defense2Type = (Spinner) view.findViewById(R.id.defense_2_type);
@@ -451,8 +454,44 @@ public class ScoutingSheet extends Fragment {
             Toast.makeText(getContext(), "Fill out all defenses, 'defense crossed?' is not a defense", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
+        int[] limitedDefensePasses = new int[defensePasses.length];
+        for (int i = 0; i < defensePasses.length; i++) {
+            if (defensePasses[i] > 2) {
+                limitedDefensePasses[i] = 2;
+            } else {
+                limitedDefensePasses[i] = defensePasses[i];
+            }
+        }
+        int totalDefensePasses = 0;
+        for (int passes : limitedDefensePasses) {
+            totalDefensePasses += passes;
+        }
+        int defenseScore = totalDefensePasses * 5;
+        int highGoalScore = highGoalMadeCount * 5;
+        int lowGoalScore = lowGoalMadeCount * 2;
+        int teleopScore = defenseScore + highGoalScore + lowGoalScore;
+        int autonDefenseScore = 0;
+        if (!autonDefense.getSelectedItem().toString().equals("None")) {
+            autonDefenseScore = 10;
+        }
+        int autonGoalScore = 0;
+        int autonScore = autonDefenseScore + autonGoalScore;
+        if (canAutonShoot.isChecked()) {
+            RadioButton shootType = (RadioButton) view.findViewById(autonShootType.getCheckedRadioButtonId());
+            if (shootType.getText().toString().equals("Low Goal")) {
+                autonGoalScore = 5;
+            } else {
+                autonGoalScore = 10;
+            }
+        }
+        int endGameScore = 0;
+        if (challenge.isChecked()) {
+            endGameScore += 5;
+            if (climb.isChecked()) {
+                endGameScore += 15;
+            }
+        }
+        int totalScore = autonScore + teleopScore + endGameScore;
 
         try {
             String fileName = teamNumber.getText().toString();
@@ -462,7 +501,6 @@ public class ScoutingSheet extends Fragment {
 
             if (!file.exists()) {
                 file.createNewFile();
-                Toast.makeText(getContext(), "rise my son." + fileName, Toast.LENGTH_SHORT).show();
             }
 
             writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile(), true));
@@ -475,8 +513,9 @@ public class ScoutingSheet extends Fragment {
                 RadioButton shootType = (RadioButton) view.findViewById(autonShootType.getCheckedRadioButtonId());
                 write(shootType.getText().toString());
             } else {
-                write("null");
+                write("None");
             }
+            write(Boolean.toString(autonMadeShot.isChecked()));
             write(defense1Type.getSelectedItem().toString());
             write(Integer.toString(defensePasses[1 - ONE]));
             write(defense2Type.getSelectedItem().toString());
@@ -497,8 +536,9 @@ public class ScoutingSheet extends Fragment {
             } else {
                 write("0.0");
             }
-            write(Boolean.toString(capture.isChecked()));
-            writer.write(Boolean.toString(climb.isChecked()));
+            write(Boolean.toString(challenge.isChecked()));
+            write(Boolean.toString(climb.isChecked()));
+            writer.write(Integer.toString(totalScore));
             writer.newLine();
             writer.flush();
 

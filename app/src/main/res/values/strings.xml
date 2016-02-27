@@ -23,7 +23,7 @@
     <string name="capture">Did it challenge?</string>
     <string name="climb">Did it climb?</string>
 
-    <string-array name="defenses">
+    <string-array name="auton_defenses">
         <item>Defense crossed?</item>
         <item>None</item>
         <item>Low Bar</item>
@@ -35,6 +35,18 @@
         <item>Sally Port</item>
         <item>Rock Wall</item>
         <item>Rough Terrain</item>
+    </string-array>
+
+    <string-array name="defenses">
+        <item>Low Bar: </item>
+        <item>Portcullis: </item>
+        <item>Cheval de Frise: </item>
+        <item>Moat: </item>
+        <item>Ramparts: </item>
+        <item>Drawbridge: </item>
+        <item>Sally Port: </item>
+        <item>Rock Wall: </item>
+        <item>Roug)h Terrain: </item>
     </string-array>
 
     <string-array name="teleop_defenses">
@@ -55,5 +67,18 @@
     </string-array>
     <string name="title_activity_team_data">TeamData</string>
 
+    <string-array name="stat_keys">
+        <item>Auton percentage: </item>
+        <item>Auton attempts shot percentage: </item>
+        <item>Auton high goal percentage: </item>
+        <item>Auton low goal percentage: </item>
+        <item>Auton defenses: </item>
+        <item>Teleop defenses: </item>
+        <item>Teleop high goal percentage: </item>
+        <item>Teleop low goal percentage: </item>
+        <item>Challenge percentage: </item>
+        <item>Scale percentage: </item>
+        <item>Average Score: </item>
+    </string-array>
 
 </resources>

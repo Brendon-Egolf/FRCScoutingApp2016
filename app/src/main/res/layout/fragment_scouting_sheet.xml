@@ -96,6 +96,14 @@
                         android:textSize="@dimen/item_label" />
                 </RadioGroup>
 
+                <CheckBox android:id="@+id/auton_made_shot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Made Shot"
+                    android:textSize="@dimen/item_label"
+                    android:layout_below="@id/auton_shoot_type"
+                    android:visibility="gone"/>
+
             </RelativeLayout>
 
             <LinearLayout android:id="@+id/end_game"
