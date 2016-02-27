@@ -46,7 +46,7 @@
         <item>Drawbridge: </item>
         <item>Sally Port: </item>
         <item>Rock Wall: </item>
-        <item>Roug)h Terrain: </item>
+        <item>Rough Terrain: </item>
     </string-array>
 
     <string-array name="teleop_defenses">

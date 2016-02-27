@@ -56,7 +56,7 @@ public class TeamData extends AppCompatActivity {
                     defenseView.setTextColor(getResources().getColor(R.color.black));
                     teamStatsView.addView(defenseView);
                     String[] defenses = getResources().getStringArray(R.array.defenses);
-                    for (j = i; j < 9; j++) {
+                    for (j = i; j - i < defenses.length; j++) {
                         LinearLayout.LayoutParams layoutParamsTabbed = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT);
