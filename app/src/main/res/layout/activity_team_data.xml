@@ -20,25 +20,32 @@
             app:popupTheme="@style/MyMaterialTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-
-    <RelativeLayout android:layout_below="@id/bar"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView android:id="@+id/team_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/default_user"/>
-        <LinearLayout android:id="@+id/team_stats"
+        android:layout_height="match_parent"
+        android:layout_below="@id/bar"
+        android:verticalScrollbarPosition="defaultPosition">
+        <RelativeLayout android:layout_below="@id/bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/team_picture"
-            android:orientation="vertical"
-            android:layout_marginLeft="16dp">
-            <TextView
+            android:layout_height="wrap_content">
+            <LinearLayout android:id="@+id/team_stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="teamData: "/>
-        </LinearLayout>
-    </RelativeLayout>
+                android:orientation="vertical"
+                android:layout_margin="16dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Team Data: "
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+            <ImageView android:id="@+id/team_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/default_user"
+                android:layout_below="@id/team_stats"/>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
