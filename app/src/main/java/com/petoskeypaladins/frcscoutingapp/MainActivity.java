@@ -5,7 +5,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.WindowManager;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ScoutingSheet(), "Scout");
         adapter.addFragment(new DataView(), "View Data");
+        adapter.addFragment(new SyncData(), "Sync Data");
         viewPager.setAdapter(adapter);
     }
 }

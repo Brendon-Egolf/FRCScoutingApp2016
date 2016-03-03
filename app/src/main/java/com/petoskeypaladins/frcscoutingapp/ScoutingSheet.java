@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class ScoutingSheet extends Fragment {
@@ -35,16 +36,12 @@ public class ScoutingSheet extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
-
         final View view = inflater.inflate(R.layout.fragment_scouting_sheet, container, false);
         final EditText roundNumber = (EditText)view.findViewById(R.id.round_number);
         final EditText teamNumber = (EditText) view.findViewById(R.id.team_number);

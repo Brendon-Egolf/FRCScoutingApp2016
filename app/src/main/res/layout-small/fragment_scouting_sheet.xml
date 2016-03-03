@@ -21,7 +21,8 @@
             android:layout_marginTop="@dimen/margin_x_small"
             android:gravity="center_horizontal"
             android:hint="@string/round_number"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:layout_below="@id/end_game"/>
 
         <EditText android:id="@+id/team_number"
             android:layout_width="wrap_content"
@@ -31,117 +32,107 @@
             android:hint="@string/team_number"
             android:gravity="center_horizontal"
             android:layout_toRightOf="@id/round_number"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:layout_below="@id/end_game"/>
 
-        <LinearLayout
-            android:layout_width="240dp"
+        <RelativeLayout android:id="@+id/autonomous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_x_small">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/auton_label"
+                android:text="@string/auton_mode"
+                android:textSize="@dimen/header"
+                android:textStyle="bold" />
+
+            <CheckBox android:id="@+id/can_auton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/auton_label"
+                android:text="@string/can_auton"
+                android:textSize="@dimen/item_label"
+                android:layout_marginTop="@dimen/margin_x_small" />
+
+            <Spinner android:id="@+id/auton_defense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/can_auton"
+                android:visibility="gone"/>
+
+            <CheckBox android:id="@+id/can_auton_shoot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/can_auton_shoot"
+                android:textSize="@dimen/item_label"
+                android:layout_below="@id/auton_defense"
+                android:visibility="gone"/>
+
+            <RadioGroup android:id="@+id/auton_shoot_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/can_auton_shoot"
+                android:layout_below="@id/can_auton_shoot"
+                android:checkedButton="@+id/auton_low_goal"
+                android:visibility="gone">
+
+                <RadioButton android:id="@+id/auton_low_goal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/low_goal"
+                    android:textSize="@dimen/item_label" />
+
+                <RadioButton android:id="@+id/auton_high_goal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/high_goal"
+                    android:textSize="@dimen/item_label" />
+            </RadioGroup>
+
+            <CheckBox android:id="@+id/auton_made_shot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Made Shot"
+                android:textSize="@dimen/item_label"
+                android:layout_below="@id/auton_shoot_type"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <LinearLayout android:id="@+id/end_game"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/round_number">
+            android:layout_marginLeft="@dimen/margin_x_small"
+            android:layout_below="@id/teleoperated">
 
-            <RelativeLayout android:id="@+id/autonomous"
+            <TextView android:id="@+id/end_game_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_x_small">
+                android:text="@string/end_game"
+                android:textSize="@dimen/header"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/auton_label"
-                    android:text="@string/auton_mode"
-                    android:textSize="@dimen/header"
-                    android:textStyle="bold" />
-
-                <CheckBox android:id="@+id/can_auton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/auton_label"
-                    android:text="@string/can_auton"
-                    android:textSize="@dimen/item_label"
-                    android:layout_marginTop="@dimen/margin_x_small" />
-
-                <Spinner android:id="@+id/auton_defense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/can_auton"
-                    android:visibility="gone"/>
-
-                <CheckBox android:id="@+id/can_auton_shoot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/can_auton_shoot"
-                    android:textSize="@dimen/item_label"
-                    android:layout_below="@id/auton_defense"
-                    android:visibility="gone"/>
-
-                <RadioGroup android:id="@+id/auton_shoot_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/can_auton_shoot"
-                    android:layout_below="@id/can_auton_shoot"
-                    android:checkedButton="@+id/auton_low_goal"
-                    android:visibility="gone">
-
-                    <RadioButton android:id="@+id/auton_low_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/low_goal"
-                        android:textSize="@dimen/item_label" />
-
-                    <RadioButton android:id="@+id/auton_high_goal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/high_goal"
-                        android:textSize="@dimen/item_label" />
-                </RadioGroup>
-
-                <CheckBox android:id="@+id/auton_made_shot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Made Shot"
-                    android:textSize="@dimen/item_label"
-                    android:layout_below="@id/auton_shoot_type"
-                    android:visibility="gone"/>
-
-            </RelativeLayout>
-
-            <LinearLayout android:id="@+id/end_game"
+            <CheckBox android:id="@+id/can_capture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/margin_x_small">
+                android:text="@string/capture"
+                android:textSize="@dimen/item_label"/>
 
-                <TextView android:id="@+id/end_game_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/end_game"
-                    android:textSize="@dimen/header"
-                    android:textStyle="bold" />
-
-                <CheckBox android:id="@+id/can_capture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/capture"
-                    android:textSize="@dimen/item_label"/>
-
-                <CheckBox android:id="@+id/can_climb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/climb"
-                    android:textSize="@dimen/item_label"
-                    android:visibility="gone"/>
-
-            </LinearLayout>
-
+            <CheckBox android:id="@+id/can_climb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/climb"
+                android:textSize="@dimen/item_label"
+                android:visibility="gone"/>
         </LinearLayout>
+
 
         <RelativeLayout android:id="@+id/teleoperated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/round_number">
-
-
+            android:layout_below="@id/autonomous">
 
             <TextView android:id="@+id/teleop_label"
                 android:layout_width="wrap_content"
@@ -320,9 +311,6 @@
                         android:textSize="32dp" />
 
                 </LinearLayout>
-
-
-
             </LinearLayout>
 
             <TextView android:id="@+id/high_goal_shots_label"
@@ -491,16 +479,12 @@
                     android:text="+"
                     android:textSize="32dp" />
             </LinearLayout>
-
-
         </RelativeLayout>
-
-
 
         <Button android:id="@+id/submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/teleoperated"
+            android:layout_below="@id/round_number"
             android:text="@string/submit"
             android:layout_marginBottom="@dimen/margin_large" />
     </RelativeLayout>
