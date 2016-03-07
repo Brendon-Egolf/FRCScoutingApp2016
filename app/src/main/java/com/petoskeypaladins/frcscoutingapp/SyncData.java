@@ -155,14 +155,11 @@ public class SyncData extends android.support.v4.app.Fragment {
             if (directoryListing != null) {
                 String message = "";
                 for (File file : directoryListing) {
-                    if (file.getPath().contains(".csv")) {
                         message += file.getName() + ":";
                         Scanner scanner = new Scanner(file);
-                        message += scanner.useDelimiter("\\Z").next() + ":\n";
-                    }
+                        message += scanner.useDelimiter("\\Z").next();
+                        sendMessage(message);
                 }
-                message = message.substring(0,message.length() - 2);
-                sendMessage(message);
             } else {
                 Toast.makeText(getContext(),
                         "you need to have some data first",
@@ -175,14 +172,15 @@ public class SyncData extends android.support.v4.app.Fragment {
     }
 
     private void recieveData(String recievedData) {
+        Toast.makeText(getContext(), recievedData, Toast.LENGTH_SHORT).show();
         String[] rawData = recievedData.split(":");
         try {
-            for (int i = 0; i < rawData.length; i += 2) {
-                String filename = rawData[i];
-//                Toast.makeText(getContext(), "before: " + filename, Toast.LENGTH_SHORT).show();
+            String filename = rawData[0];
+            if (rawData.length > 1) {
+                Toast.makeText(getContext(), "before: " + filename, Toast.LENGTH_SHORT).show();
                 filename = filename.replace("\n", "").replace("\r", "");
-//                Toast.makeText(getContext(), "after: " + filename, Toast.LENGTH_SHORT).show();
-                String[] lines = rawData[i + 1].split("\n");
+                Toast.makeText(getContext(), "after: " + filename, Toast.LENGTH_SHORT).show();
+                String[] lines = rawData[1].split("\n");
                 ArrayList<String[]> newData = new ArrayList<>();
                 for (String line : lines) {
                     newData.add(line.split(","));
@@ -197,31 +195,30 @@ public class SyncData extends android.support.v4.app.Fragment {
                 }
                 ArrayList<String[]> mergedData = newData;
                 mergedData.addAll(oldData);
-                for (int j = 0; j < mergedData.size(); j++) {
-                    for (int k = 0; k < mergedData.size(); k++) {
+                for (int j = mergedData.size() - 1; j > 0; j--) {
+                    for (int k = mergedData.size() - 1; k > 0; k--) {
                         if (mergedData.get(j)[0].equals(mergedData.get(k)[0]) && j != k) {
 //                            Toast.makeText(getContext(),
 //                                    mergedData.get(j)[0] + "=" + mergedData.get(k)[0],
 //                                    Toast.LENGTH_SHORT).show();
                             mergedData.remove(k);
-                            k--;
                         }
                     }
                 }
-//                Toast.makeText(getContext(), "Merged data length: " + mergedData.size(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Merged data length:+ " + mergedData.size(), Toast.LENGTH_SHORT).show();
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
                 for (int j = 0; j < mergedData.size(); j++) {
-                    for (int k = 0; k < mergedData.get(0).length; k++) {
-                        if (k < mergedData.get(0).length - 1) {
-                            writer.write(mergedData.get(j)[k] + ",");
-                        } else {
-                            writer.write(mergedData.get(j)[k]);
+                    for (int k = 0; k < mergedData.get(j).length; k++) {
+                        writer.write(mergedData.get(j)[k]);
+                        if (j < mergedData.get(j).length - 1) {
+                            writer.write(",");
                         }
                     }
                     writer.newLine();
                 }
                 writer.flush();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -250,16 +247,8 @@ public class SyncData extends android.support.v4.app.Fragment {
         }
     }
 
-    private void setStatus(CharSequence subTitle) {
-        FragmentActivity activity = getActivity();
-        if (null == activity) {
-            return;
-        }
-        final ActionBar actionBar = activity.getActionBar();
-        if (null == actionBar) {
-            return;
-        }
-        actionBar.setSubtitle(subTitle);
+    private void setStatus(CharSequence status) {
+        textStatus.setText(status);
     }
 
     private final Handler mHandler = new Handler() {

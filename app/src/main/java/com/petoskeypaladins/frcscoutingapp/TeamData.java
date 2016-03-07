@@ -33,7 +33,7 @@ public class TeamData extends AppCompatActivity {
 
         ImageView teamPicture = (ImageView) findViewById(R.id.team_picture);
 
-        teamPicture.setImageURI(Uri.parse("/storage/emulated/0/scouting/" + teamNumber + ".jpg"));
+        teamPicture.setImageURI(Uri.parse("/storage/emulated/0/scouting-pictures/" + teamNumber + ".jpg"));
 
         LinearLayout teamStatsView = (LinearLayout) findViewById(R.id.team_stats);
 

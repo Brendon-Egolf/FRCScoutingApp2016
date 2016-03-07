@@ -465,7 +465,7 @@ public class BluetoothService {
 
         public void run() {
             Log.i(TAG, "BEGIN mConnectedThread");
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
             int bytes;
 
             // Keep listening to the InputStream while connected
@@ -473,7 +473,6 @@ public class BluetoothService {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
-
                     // Send the obtained bytes to the UI Activity
                     mHandler.obtainMessage(Constants.MESSAGE_READ, bytes, -1, buffer)
                             .sendToTarget();
