@@ -10,7 +10,6 @@ http://android-er.blogspot.com/2014/12/bluetooth-communication-between-android.h
  */
 package com.petoskeypaladins.frcscoutingapp;
 
-import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
@@ -157,9 +156,10 @@ public class SyncData extends android.support.v4.app.Fragment {
                 for (File file : directoryListing) {
                         message += file.getName() + ":";
                         Scanner scanner = new Scanner(file);
-                        message += scanner.useDelimiter("\\Z").next();
-                        sendMessage(message);
+                        message += scanner.useDelimiter("\\Z").next() + ":";
                 }
+                message = message.substring(0, message.length() - 1) + ";";
+                sendMessage(message);
             } else {
                 Toast.makeText(getContext(),
                         "you need to have some data first",
@@ -171,16 +171,15 @@ public class SyncData extends android.support.v4.app.Fragment {
         }
     }
 
-    private void recieveData(String recievedData) {
-        Toast.makeText(getContext(), recievedData, Toast.LENGTH_SHORT).show();
-        String[] rawData = recievedData.split(":");
+    private void receiveData(String receivedData) {
+        String[] rawData = receivedData.split(":");
         try {
-            String filename = rawData[0];
-            if (rawData.length > 1) {
-                Toast.makeText(getContext(), "before: " + filename, Toast.LENGTH_SHORT).show();
+            for (int i = 0; i < rawData.length; i += 2) {
+                String filename = rawData[i];
+//                Toast.makeText(getContext(), "before: " + filename, Toast.LENGTH_SHORT).show();
                 filename = filename.replace("\n", "").replace("\r", "");
-                Toast.makeText(getContext(), "after: " + filename, Toast.LENGTH_SHORT).show();
-                String[] lines = rawData[1].split("\n");
+//                Toast.makeText(getContext(), "after: " + filename, Toast.LENGTH_SHORT).show();
+                String[] lines = rawData[i + 1].split("\n");
                 ArrayList<String[]> newData = new ArrayList<>();
                 for (String line : lines) {
                     newData.add(line.split(","));
@@ -195,30 +194,38 @@ public class SyncData extends android.support.v4.app.Fragment {
                 }
                 ArrayList<String[]> mergedData = newData;
                 mergedData.addAll(oldData);
-                for (int j = mergedData.size() - 1; j > 0; j--) {
-                    for (int k = mergedData.size() - 1; k > 0; k--) {
-                        if (mergedData.get(j)[0].equals(mergedData.get(k)[0]) && j != k) {
-//                            Toast.makeText(getContext(),
+                for (int j = 0; j < mergedData.size(); j++) {
+                    for (int k = 0; k < mergedData.size(); k++) {
+                        if (Integer.parseInt(mergedData.get(j)[0]) == Integer.parseInt(mergedData.get(k)[0]) && j != k) {
+
+//                            if (filename.equals("6193.csv")) {
+//                                Toast.makeText(getContext(),
 //                                    mergedData.get(j)[0] + "=" + mergedData.get(k)[0],
 //                                    Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(), "Eliminated round " + mergedData.get(k)[0] +
+//                                        ", j = " + Integer.toString(j) +
+//                                        ", k = " + Integer.toString(k)
+//                                        , Toast.LENGTH_SHORT).show();
+//                            }
                             mergedData.remove(k);
+                            k--;
                         }
                     }
                 }
-//                Toast.makeText(getContext(), "Merged data length:+ " + mergedData.size(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Merged data length: " + mergedData.size(), Toast.LENGTH_SHORT).show();
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
                 for (int j = 0; j < mergedData.size(); j++) {
-                    for (int k = 0; k < mergedData.get(j).length; k++) {
-                        writer.write(mergedData.get(j)[k]);
-                        if (j < mergedData.get(j).length - 1) {
-                            writer.write(",");
+                    for (int k = 0; k < mergedData.get(0).length; k++) {
+                        if (k < mergedData.get(0).length - 1) {
+                            writer.write(mergedData.get(j)[k] + ",");
+                        } else {
+                            writer.write(mergedData.get(j)[k]);
                         }
                     }
                     writer.newLine();
                 }
                 writer.flush();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -245,6 +252,11 @@ public class SyncData extends android.support.v4.app.Fragment {
             // Reset out string buffer to zero and clear the edit text field
             mOutStringBuffer.setLength(0);
         }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setStatus(CharSequence status) {
@@ -252,6 +264,8 @@ public class SyncData extends android.support.v4.app.Fragment {
     }
 
     private final Handler mHandler = new Handler() {
+        String receivedText = "";
+
         @Override
         public void handleMessage(Message msg) {
             FragmentActivity activity = getActivity();
@@ -282,10 +296,14 @@ public class SyncData extends android.support.v4.app.Fragment {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    recieveData(readMessage);
-                    Toast.makeText(getContext(),
-                            "Recieving data from " + mConnectedDeviceName,
-                            Toast.LENGTH_SHORT).show();
+                    receivedText += readMessage;
+                    if (receivedText.substring(receivedText.length() - 1).equals(";")) {
+                        receivedText = receivedText.substring(0, receivedText.length() - 1);
+                        receiveData(receivedText);
+                        Toast.makeText(getContext(),
+                                "Recieving data from " + mConnectedDeviceName,
+                                Toast.LENGTH_SHORT).show();
+                    }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     // save the connected device's name
