@@ -74,7 +74,7 @@ public class DataView extends Fragment {
     public String loadJSONFromAsset() {
         String json;
         try {
-            InputStream inputStream = getContext().getAssets().open("FRC-standish-event.json");
+            InputStream inputStream = getContext().getAssets().open("FRC-Midland-event.json");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
