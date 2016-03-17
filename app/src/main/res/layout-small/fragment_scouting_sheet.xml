@@ -487,6 +487,14 @@
             android:layout_below="@id/round_number"
             android:text="@string/submit"
             android:layout_marginBottom="@dimen/margin_large" />
+
+        <Button android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/round_number"
+            android:text="reset"
+            android:layout_toRightOf="@id/submit"
+            android:layout_marginBottom="@dimen/margin_large" />
     </RelativeLayout>
 </ScrollView>
 

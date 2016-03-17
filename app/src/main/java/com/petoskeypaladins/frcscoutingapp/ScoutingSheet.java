@@ -29,6 +29,51 @@ public class ScoutingSheet extends Fragment {
     BufferedWriter writer;
     final int ONE = 1;
 
+    EditText roundNumber;
+    EditText teamNumber;
+    CheckBox canAuton;
+    CheckBox canAutonShoot;
+    RadioGroup autonShootType;
+    CheckBox autonMadeShot;
+    Spinner autonDefenseSpinner;
+    CheckBox canCapture;
+    CheckBox canClimb;
+    Button highGoalMadeAdd;
+    TextView highGoalMadeNumber;
+    Button highGoalMadeSubtract;
+    Button highGoalMissedAdd;
+    TextView highGoalMissedNumber;
+    Button highGoalMissedSubtract;
+    Button lowGoalMadeAdd;
+    TextView lowGoalMadeNumber;
+    Button lowGoalMadeSubtract;
+    Button lowGoalMissedAdd;
+    TextView lowGoalMissedNumber;
+    Button lowGoalMissedSubtract;
+    Spinner defense1Type;
+    Button defense1AddPass;
+    TextView defense1Passes;
+    Button defense1SubtractPass;
+    Spinner defense2Type;
+    Button defense2AddPass;
+    TextView defense2Passes;
+    Button defense2SubtractPass;
+    Spinner defense3Type;
+    Button defense3AddPass;
+    TextView defense3Passes;
+    Button defense3SubtractPass;
+    Spinner defense4Type;
+    Button defense4AddPass;
+    TextView defense4Passes;
+    Button defense4SubtractPass;
+    Spinner defense5Type;
+    Button defense5AddPass;
+    TextView defense5Passes;
+    Button defense5SubtractPass;
+    Button reset;
+
+
+
     public ScoutingSheet() {
         // Required empty public constructor
     }
@@ -43,10 +88,10 @@ public class ScoutingSheet extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_scouting_sheet, container, false);
-        final EditText roundNumber = (EditText)view.findViewById(R.id.round_number);
-        final EditText teamNumber = (EditText) view.findViewById(R.id.team_number);
+        roundNumber = (EditText)view.findViewById(R.id.round_number);
+        teamNumber = (EditText) view.findViewById(R.id.team_number);
 
-        final Button submit = (Button) view.findViewById(R.id.submit);
+        Button submit = (Button) view.findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +111,7 @@ public class ScoutingSheet extends Fragment {
             }
         });
 
-        final Spinner autonDefenseSpinner = (Spinner) view.findViewById(R.id.auton_defense);
+        autonDefenseSpinner = (Spinner) view.findViewById(R.id.auton_defense);
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.auton_defenses, android.R.layout.simple_spinner_dropdown_item);
 
@@ -74,10 +119,10 @@ public class ScoutingSheet extends Fragment {
 
         autonDefenseSpinner.setAdapter(arrayAdapter);
 
-        final CheckBox canAuton = (CheckBox) view.findViewById(R.id.can_auton);
-        final CheckBox canAutonShoot = (CheckBox) view.findViewById(R.id.can_auton_shoot);
-        final RadioGroup autonShootType = (RadioGroup) view.findViewById(R.id.auton_shoot_type);
-        final CheckBox autonMadeShot = (CheckBox) view.findViewById(R.id.auton_made_shot);
+        canAuton = (CheckBox) view.findViewById(R.id.can_auton);
+        canAutonShoot = (CheckBox) view.findViewById(R.id.can_auton_shoot);
+        autonShootType = (RadioGroup) view.findViewById(R.id.auton_shoot_type);
+        autonMadeShot = (CheckBox) view.findViewById(R.id.auton_made_shot);
 
         canAuton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,8 +157,8 @@ public class ScoutingSheet extends Fragment {
             }
         });
 
-        final CheckBox canCapture = (CheckBox) view.findViewById(R.id.can_capture);
-        final CheckBox canClimb = (CheckBox) view.findViewById(R.id.can_climb);
+        canCapture = (CheckBox) view.findViewById(R.id.can_capture);
+        canClimb = (CheckBox) view.findViewById(R.id.can_climb);
 
         canCapture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,18 +172,18 @@ public class ScoutingSheet extends Fragment {
             }
         });
 
-        final Button highGoalMadeAdd = (Button) view.findViewById(R.id.high_goal_made_add);
-        final TextView highGoalMadeNumber = (TextView) view.findViewById(R.id.high_goal_made_number);
-        final Button highGoalMadeSubtract = (Button) view.findViewById(R.id.high_goal_made_subtract);
-        final Button highGoalMissedAdd = (Button) view.findViewById(R.id.high_goal_missed_add);
-        final TextView highGoalMissedNumber = (TextView) view.findViewById(R.id.high_goal_missed_number);
-        final Button highGoalMissedSubtract = (Button) view.findViewById(R.id.high_goal_missed_subtract);
-        final Button lowGoalMadeAdd = (Button) view.findViewById(R.id.low_goal_made_add);
-        final TextView lowGoalMadeNumber = (TextView) view.findViewById(R.id.low_goal_made_number);
-        final Button lowGoalMadeSubtract = (Button) view.findViewById(R.id.low_goal_made_subtract);
-        final Button lowGoalMissedAdd = (Button) view.findViewById(R.id.low_goal_missed_add);
-        final TextView lowGoalMissedNumber = (TextView) view.findViewById(R.id.low_goal_missed_number);
-        final Button lowGoalMissedSubtract = (Button) view.findViewById(R.id.low_goal_missed_subtract);
+        highGoalMadeAdd = (Button) view.findViewById(R.id.high_goal_made_add);
+        highGoalMadeNumber = (TextView) view.findViewById(R.id.high_goal_made_number);
+        highGoalMadeSubtract = (Button) view.findViewById(R.id.high_goal_made_subtract);
+        highGoalMissedAdd = (Button) view.findViewById(R.id.high_goal_missed_add);
+        highGoalMissedNumber = (TextView) view.findViewById(R.id.high_goal_missed_number);
+        highGoalMissedSubtract = (Button) view.findViewById(R.id.high_goal_missed_subtract);
+        lowGoalMadeAdd = (Button) view.findViewById(R.id.low_goal_made_add);
+        lowGoalMadeNumber = (TextView) view.findViewById(R.id.low_goal_made_number);
+        lowGoalMadeSubtract = (Button) view.findViewById(R.id.low_goal_made_subtract);
+        lowGoalMissedAdd = (Button) view.findViewById(R.id.low_goal_missed_add);
+        lowGoalMissedNumber = (TextView) view.findViewById(R.id.low_goal_missed_number);
+        lowGoalMissedSubtract = (Button) view.findViewById(R.id.low_goal_missed_subtract);
 
         highGoalMadeCount = 0;
         highGoalMadeNumber.setText(Integer.toString(highGoalMadeCount));
@@ -238,30 +283,30 @@ public class ScoutingSheet extends Fragment {
             }
         });
 
-        final Spinner defense1Type = (Spinner) view.findViewById(R.id.defense_1_type);
-        final Button defense1AddPass = (Button) view.findViewById(R.id.defense_1_add_pass);
-        final TextView defense1Passes = (TextView) view.findViewById(R.id.defense_1_passes);
-        final Button defense1SubtractPass = (Button) view.findViewById(R.id.defense_1_subtract_pass);
+        defense1Type = (Spinner) view.findViewById(R.id.defense_1_type);
+        defense1AddPass = (Button) view.findViewById(R.id.defense_1_add_pass);
+        defense1Passes = (TextView) view.findViewById(R.id.defense_1_passes);
+        defense1SubtractPass = (Button) view.findViewById(R.id.defense_1_subtract_pass);
 
-        final Spinner defense2Type = (Spinner) view.findViewById(R.id.defense_2_type);
-        final Button defense2AddPass = (Button) view.findViewById(R.id.defense_2_add_pass);
-        final TextView defense2Passes = (TextView) view.findViewById(R.id.defense_2_passes);
-        final Button defense2SubtractPass = (Button) view.findViewById(R.id.defense_2_subtract_pass);
+        defense2Type = (Spinner) view.findViewById(R.id.defense_2_type);
+        defense2AddPass = (Button) view.findViewById(R.id.defense_2_add_pass);
+        defense2Passes = (TextView) view.findViewById(R.id.defense_2_passes);
+        defense2SubtractPass = (Button) view.findViewById(R.id.defense_2_subtract_pass);
 
-        final Spinner defense3Type = (Spinner) view.findViewById(R.id.defense_3_type);
-        final Button defense3AddPass = (Button) view.findViewById(R.id.defense_3_add_pass);
-        final TextView defense3Passes = (TextView) view.findViewById(R.id.defense_3_passes);
-        final Button defense3SubtractPass = (Button) view.findViewById(R.id.defense_3_subtract_pass);
+        defense3Type = (Spinner) view.findViewById(R.id.defense_3_type);
+        defense3AddPass = (Button) view.findViewById(R.id.defense_3_add_pass);
+        defense3Passes = (TextView) view.findViewById(R.id.defense_3_passes);
+        defense3SubtractPass = (Button) view.findViewById(R.id.defense_3_subtract_pass);
 
-        final Spinner defense4Type = (Spinner) view.findViewById(R.id.defense_4_type);
-        final Button defense4AddPass = (Button) view.findViewById(R.id.defense_4_add_pass);
-        final TextView defense4Passes = (TextView) view.findViewById(R.id.defense_4_passes);
-        final Button defense4SubtractPass = (Button) view.findViewById(R.id.defense_4_subtract_pass);
+        defense4Type = (Spinner) view.findViewById(R.id.defense_4_type);
+        defense4AddPass = (Button) view.findViewById(R.id.defense_4_add_pass);
+        defense4Passes = (TextView) view.findViewById(R.id.defense_4_passes);
+        defense4SubtractPass = (Button) view.findViewById(R.id.defense_4_subtract_pass);
 
-        final Spinner defense5Type = (Spinner) view.findViewById(R.id.defense_5_type);
-        final Button defense5AddPass = (Button) view.findViewById(R.id.defense_5_add_pass);
-        final TextView defense5Passes = (TextView) view.findViewById(R.id.defense_5_passes);
-        final Button defense5SubtractPass = (Button) view.findViewById(R.id.defense_5_subtract_pass);
+        defense5Type = (Spinner) view.findViewById(R.id.defense_5_type);
+        defense5AddPass = (Button) view.findViewById(R.id.defense_5_add_pass);
+        defense5Passes = (TextView) view.findViewById(R.id.defense_5_passes);
+        defense5SubtractPass = (Button) view.findViewById(R.id.defense_5_subtract_pass);
 
         for (int i:defensePasses) {
             i = 0;
@@ -405,6 +450,14 @@ public class ScoutingSheet extends Fragment {
             }
         });
 
+        reset = (Button) view.findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetSheet();
+            }
+        });
+
         return view;
     }
 
@@ -540,10 +593,12 @@ public class ScoutingSheet extends Fragment {
             writer.flush();
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "IO error", Toast.LENGTH_SHORT).show();
-        }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getContext(), "IO error", Toast.LENGTH_SHORT).show();
+            }
+
+        resetSheet();
 
         Toast.makeText(getContext(), "You have submitted your form to the scouting god.", Toast.LENGTH_SHORT).show();
     }
@@ -565,5 +620,47 @@ public class ScoutingSheet extends Fragment {
         }
     }
 
-
+    public void resetSheet() {
+        roundNumber.setText("");
+        teamNumber.setText("");
+        canAuton.setChecked(false);
+        autonDefenseSpinner.setVisibility(View.GONE);
+        canAutonShoot.setVisibility(View.GONE);
+        autonShootType.setVisibility(View.GONE);
+        autonDefenseSpinner.setSelection(0);
+        canAutonShoot.setChecked(false);
+        autonShootType.clearCheck();
+        autonMadeShot.setVisibility(View.GONE);
+        autonMadeShot.setChecked(false);
+        canCapture.setChecked(false);
+        canClimb.setVisibility(View.GONE);
+        canClimb.setChecked(false);
+        highGoalMadeNumber.setText("0");
+        highGoalMadeSubtract.setVisibility(View.INVISIBLE);
+        highGoalMadeCount = 0;
+        highGoalMissedNumber.setText("0");
+        highGoalMissedSubtract.setVisibility(View.INVISIBLE);
+        highGoalMissedCount = 0;
+        lowGoalMadeNumber.setText("0");
+        lowGoalMadeSubtract.setVisibility(View.INVISIBLE);
+        lowGoalMadeCount = 0;
+        lowGoalMissedNumber.setText("0");
+        lowGoalMissedSubtract.setVisibility(View.INVISIBLE);
+        lowGoalMissedCount = 0;
+        defense1Type.setSelection(0);
+        defense1Passes.setText("0");
+        defense1SubtractPass.setVisibility(View.INVISIBLE);
+        defense2Type.setSelection(0);
+        defense2Passes.setText("0");
+        defense2SubtractPass.setVisibility(View.INVISIBLE);
+        defense3Type.setSelection(0);
+        defense3Passes.setText("0");
+        defense3SubtractPass.setVisibility(View.INVISIBLE);
+        defense4Type.setSelection(0);
+        defense4Passes.setText("0");
+        defense4SubtractPass.setVisibility(View.INVISIBLE);
+        defense5Type.setSelection(0);
+        defense5Passes.setText("0");
+        defense5SubtractPass.setVisibility(View.INVISIBLE);
+    }
 }
