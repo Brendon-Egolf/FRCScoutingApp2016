@@ -1,7 +1,10 @@
 package com.petoskeypaladins.frcscoutingapp;
 
 import android.annotation.TargetApi;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +32,24 @@ public class TeamData extends AppCompatActivity {
         setContentView(R.layout.activity_team_data);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Team " + teamNumber + ", " + teamName);
+        String tabletName = BluetoothAdapter.getDefaultAdapter().getName();
+        final String RED = "#e51c23", BLUE = "#1c23e5";
+        //#YOLOLOLOLOL
+        final String ONE_SHADE_OF_GREY = "#696969";
+        ColorDrawable toolbarColor;
+        try {
+            if (((int) (Integer.parseInt(tabletName.substring(tabletName.length() - 1)) / 4)) == 0){
+                toolbarColor = new ColorDrawable(Color.parseColor(RED));
+                toolbar.setBackgroundDrawable(toolbarColor);
+            } else {
+                toolbarColor = new ColorDrawable(Color.parseColor(BLUE));
+                toolbar.setBackgroundDrawable(toolbarColor);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            toolbarColor = new ColorDrawable(Color.parseColor(ONE_SHADE_OF_GREY));
+            toolbar.setBackgroundDrawable(toolbarColor);
+        }
         setSupportActionBar(toolbar);
 
         ImageView teamPicture = (ImageView) findViewById(R.id.team_picture);

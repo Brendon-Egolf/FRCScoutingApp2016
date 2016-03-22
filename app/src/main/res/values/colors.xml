@@ -11,5 +11,7 @@
     <color name="tab_indicator">#d7d8f2</color>
     <color name="primary_text_color">#000000</color>
     <color name="secondary_text_color">#89000000</color>
+    <color name="the_red_alliance">#e51c23</color>
+    <color name="the_blue_alliance">#1c23e5</color>
 
 </resources>

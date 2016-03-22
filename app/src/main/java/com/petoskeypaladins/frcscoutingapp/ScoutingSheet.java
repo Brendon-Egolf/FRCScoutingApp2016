@@ -21,6 +21,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 public class ScoutingSheet extends Fragment {
@@ -586,6 +587,7 @@ public class ScoutingSheet extends Fragment {
             } else {
                 write("0.0");
             }
+            write(Integer.toString(highGoalMadeCount + lowGoalMadeCount));
             write(Boolean.toString(challenge.isChecked()));
             write(Boolean.toString(climb.isChecked()));
             writer.write(Integer.toString(totalScore));
@@ -662,5 +664,10 @@ public class ScoutingSheet extends Fragment {
         defense5Type.setSelection(0);
         defense5Passes.setText("0");
         defense5SubtractPass.setVisibility(View.INVISIBLE);
+        highGoalMadeCount = 0;
+        highGoalMissedCount = 0;
+        lowGoalMadeCount = 0;
+        lowGoalMissedCount = 0;
+        Arrays.fill(defensePasses, 0);
     }
 }

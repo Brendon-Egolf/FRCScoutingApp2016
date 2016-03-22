@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,7 @@ public class SyncData extends android.support.v4.app.Fragment {
 
     final String SCOUTING_DIRECTORY = "/storage/emulated/0/scouting/";
 
-    TextView textInfo, textStatus;
+    TextView textInfo, textStatus, dataStream;
     ListView listViewPairedDevice;
     LinearLayout inputPane;
     EditText inputField;
@@ -63,6 +64,8 @@ public class SyncData extends android.support.v4.app.Fragment {
     private BluetoothService bluetoothService;
 
     ArrayAdapter<String> pairedDeviceAdapter;
+
+    String message;
 
     public SyncData() {
         bluetoothService = new BluetoothService(mHandler);
@@ -98,6 +101,10 @@ public class SyncData extends android.support.v4.app.Fragment {
         String stInfo = bluetoothAdapter.getName() + "\n" +
                 bluetoothAdapter.getAddress();
         textInfo.setText(stInfo);
+
+        dataStream = (TextView) view.findViewById(R.id.data_stream);
+
+
 
         return view;
     }
@@ -148,17 +155,26 @@ public class SyncData extends android.support.v4.app.Fragment {
     }
 
     private void sendData() {
+        message = "";
+
         try {
             File dir = new File(SCOUTING_DIRECTORY);
             File[] directoryListing = dir.listFiles();
             if (directoryListing != null) {
-                String message = "";
                 for (File file : directoryListing) {
+                    if (file.exists()) {
                         message += file.getName() + ":";
-                        Scanner scanner = new Scanner(file);
-                        message += scanner.useDelimiter("\\Z").next() + ":";
+//Toast.makeText(getContext(), file.getName(), Toast.LENGTH_SHORT).show();
+                        BufferedReader reader = new BufferedReader(new FileReader(file.getAbsoluteFile()));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            message += line + "\n";
+                        }
+                        message += ":";
+                    }
                 }
-                message = message.substring(0, message.length() - 1) + ";";
+                message = message.substring(0, message.length() - 2) + ";";
+                dataStream.setText("Sending: \n" + message);
                 sendMessage(message);
             } else {
                 Toast.makeText(getContext(),
@@ -172,10 +188,17 @@ public class SyncData extends android.support.v4.app.Fragment {
     }
 
     private void receiveData(String receivedData) {
+        dataStream.setText("Receiving: \n" + receivedData);
+        File scoutingDir = new File(SCOUTING_DIRECTORY);
+        if (!scoutingDir.exists()) {
+            scoutingDir.mkdir();
+        }
+        final int ROW_LENGTH = 22;
         String[] rawData = receivedData.split(":");
         try {
             for (int i = 0; i < rawData.length; i += 2) {
                 String filename = rawData[i];
+                Log.d("team", filename);
 //                Toast.makeText(getContext(), "before: " + filename, Toast.LENGTH_SHORT).show();
                 filename = filename.replace("\n", "").replace("\r", "");
 //                Toast.makeText(getContext(), "after: " + filename, Toast.LENGTH_SHORT).show();
@@ -196,30 +219,37 @@ public class SyncData extends android.support.v4.app.Fragment {
                 mergedData.addAll(oldData);
                 for (int j = 0; j < mergedData.size(); j++) {
                     for (int k = 0; k < mergedData.size(); k++) {
-                        if (Integer.parseInt(mergedData.get(j)[0]) == Integer.parseInt(mergedData.get(k)[0]) && j != k) {
-
-//                            if (filename.equals("6193.csv")) {
-//                                Toast.makeText(getContext(),
-//                                    mergedData.get(j)[0] + "=" + mergedData.get(k)[0],
-//                                    Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(getContext(), "Eliminated round " + mergedData.get(k)[0] +
-//                                        ", j = " + Integer.toString(j) +
-//                                        ", k = " + Integer.toString(k)
-//                                        , Toast.LENGTH_SHORT).show();
-//                            }
-                            mergedData.remove(k);
-                            k--;
+                        Log.d("remove j: ", Integer.toString(j));
+                        Log.d("remove k: ", Integer.toString(k));
+                        Log.d("length: ", Integer.toString(mergedData.get(k).length));
+                        try {
+                            if ((Integer.parseInt(mergedData.get(j)[0]) == Integer.parseInt(mergedData.get(k)[0]) && j != k) ||
+                                    mergedData.get(k).length < ROW_LENGTH) {
+                                Log.d("Removing row " + k + " from", filename);
+                                mergedData.remove(k);
+                                k--;
+                            }
+                        } catch (NumberFormatException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
 //                Toast.makeText(getContext(), "Merged data length: " + mergedData.size(), Toast.LENGTH_SHORT).show();
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
                 for (int j = 0; j < mergedData.size(); j++) {
-                    for (int k = 0; k < mergedData.get(0).length; k++) {
-                        if (k < mergedData.get(0).length - 1) {
-                            writer.write(mergedData.get(j)[k] + ",");
-                        } else {
-                            writer.write(mergedData.get(j)[k]);
+                    for (int k = 0; k < ROW_LENGTH; k++) {
+                        Log.d("write j: ", Integer.toString(j));
+                        Log.d("write k: ", Integer.toString(k));
+                        try {
+                            if (k < ROW_LENGTH - 1) {
+                                writer.write(mergedData.get(j)[k] + ",");
+                                Log.d("writing,", mergedData.get(j)[k]);
+                            } else {
+                                writer.write(mergedData.get(j)[k]);
+                                Log.d("writing", mergedData.get(j)[k]);
+                            }
+                        } catch (Exception e) {
+                            writer.write(",");
                         }
                     }
                     writer.newLine();
@@ -283,6 +313,7 @@ public class SyncData extends android.support.v4.app.Fragment {
                             setStatus(getString(R.string.title_not_connected));
                             break;
                     }
+                    dataStream.setText("Stream: \n");
                     break;
                 case Constants.MESSAGE_WRITE:
                     byte[] writeBuf = (byte[]) msg.obj;
@@ -303,6 +334,7 @@ public class SyncData extends android.support.v4.app.Fragment {
                         Toast.makeText(getContext(),
                                 "Recieving data from " + mConnectedDeviceName,
                                 Toast.LENGTH_SHORT).show();
+                        receivedText = "";
                     }
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:

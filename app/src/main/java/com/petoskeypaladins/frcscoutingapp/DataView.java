@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -88,7 +89,7 @@ public class DataView extends Fragment {
     }
 
     public String[] loadTeamStats(String teamNumber) {
-        String[] teamData =  new String[27];
+        String[] teamData =  new String[29];
         File file = new File("/storage/emulated/0/scouting/" + teamNumber + ".csv");
         BufferedReader reader;
 
@@ -110,9 +111,10 @@ public class DataView extends Fragment {
                 final int[] DEFENSE_AMOUNT = {7, 9, 11, 13, 15};
                 final int HIGH_GOAL_SHOOT_PERCENT = 16,
                         LOW_GOAL_SHOOT_PERCENT = 17,
-                        DID_CHALLENGE = 18,
-                        DID_SCALE = 19,
-                        SCORE = 20;
+                        SHOTS_PER_ROUND = 18,
+                        DID_CHALLENGE = 19,
+                        DID_SCALE = 20,
+                        SCORE = 21;
                 int autonDoneCount = 0,
                         autonNotDoneCount = 0;
                 String[] defenseNames = getResources().getStringArray(R.array.defenses);
@@ -129,7 +131,8 @@ public class DataView extends Fragment {
                 int challengeCount = 0,
                         noChallengeCount = 0,
                         scaleCount = 0,
-                        noScaleCount = 0;
+                        noScaleCount = 0,
+                        totalShots  = 0;
                 int totalScore = 0;
 
                 for (String[] data : teamMatchData) {
@@ -170,6 +173,7 @@ public class DataView extends Fragment {
                     }
                     teleopHighGoalTotal += Float.parseFloat(data[HIGH_GOAL_SHOOT_PERCENT]);
                     teleopLowGoalTotal += Float.parseFloat(data[LOW_GOAL_SHOOT_PERCENT]);
+                    totalShots += Integer.parseInt(data[SHOTS_PER_ROUND]);
                     if (Boolean.parseBoolean(data[DID_CHALLENGE])) {
                         challengeCount++;
                     } else {
@@ -192,9 +196,11 @@ public class DataView extends Fragment {
                         TELEOP_ROUGH_TERRAIN_COUNT = 21,
                         TELEOP_LOW_GOAL_PERCENT = 23,
                         TELEOP_HIGH_GOAL_PERCENT = 22,
-                        CHALLENGE_PERCENT = 24,
-                        SCALE_PERCENT = 25,
-                        SCORE_AVERAGE = 26;
+                        AVERAGE_SHOTS_PER_ROUND = 24,
+                        TOTAL_SHOTS = 25,
+                        CHALLENGE_PERCENT = 26,
+                        SCALE_PERCENT = 27,
+                        SCORE_AVERAGE = 28;
                 final int MATCHES = teamMatchData.size();
 
                 teamData[CAN_AUTON_PERCENT] = getPercent(autonDoneCount, autonNotDoneCount + autonDoneCount);
@@ -209,6 +215,8 @@ public class DataView extends Fragment {
                 }
                 teamData[TELEOP_LOW_GOAL_PERCENT] = getPercent(teleopLowGoalTotal, MATCHES);
                 teamData[TELEOP_HIGH_GOAL_PERCENT] = getPercent(teleopHighGoalTotal, MATCHES);
+                teamData[AVERAGE_SHOTS_PER_ROUND] = getAverage(totalShots, MATCHES);
+                teamData[TOTAL_SHOTS] = Integer.toString(totalShots);
                 teamData[CHALLENGE_PERCENT] = getPercent(challengeCount, challengeCount + noChallengeCount);
                 teamData[SCALE_PERCENT] = getPercent(scaleCount, scaleCount + noScaleCount);
                 teamData[SCORE_AVERAGE] = Integer.toString(totalScore / MATCHES);
@@ -224,6 +232,11 @@ public class DataView extends Fragment {
 
     public String getPercent(float num, float total) {
         return Integer.toString((int) Math.round(num * 100.0 / total)) + "%";
+    }
+
+    public String getAverage(float num, float total) {
+        DecimalFormat decimalFormat = new DecimalFormat("##.00");
+        return decimalFormat.format(num / total);
     }
 
     public void alert(String message) {

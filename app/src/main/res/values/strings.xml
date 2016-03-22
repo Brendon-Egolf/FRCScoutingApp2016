@@ -22,6 +22,8 @@
     <string name="end_game">End Game</string>
     <string name="capture">Did it challenge?</string>
     <string name="climb">Did it climb?</string>
+    <string name="defense_label">Defense</string>
+    <string name="defense_effective">Effective?</string>
 
     <string-array name="auton_defenses">
         <item>Defense crossed?</item>
@@ -76,6 +78,8 @@
         <item>Teleop defenses</item>
         <item>Teleop high goal percentage</item>
         <item>Teleop low goal percentage</item>
+        <item>Average shots per round</item>
+        <item>Total shots</item>
         <item>Challenge percentage</item>
         <item>Scale percentage</item>
         <item>Average Score</item>
@@ -102,5 +106,6 @@
     <string name="secure_connect">Connect a device - Secure</string>
     <string name="insecure_connect">Connect a device - Insecure</string>
     <string name="discoverable">Make discoverable</string>
+
 
 </resources>
