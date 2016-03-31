@@ -75,7 +75,7 @@ public class DataView extends Fragment {
     public String loadJSONFromAsset() {
         String json;
         try {
-            InputStream inputStream = getContext().getAssets().open("FRC-Midland-event.json");
+            InputStream inputStream = getContext().getAssets().open("FRC-2016milsu-event.json");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -136,55 +136,59 @@ public class DataView extends Fragment {
                 int totalScore = 0;
 
                 for (String[] data : teamMatchData) {
-
-                    if (Boolean.parseBoolean(data[CAN_AUTON])) {
-                        autonDoneCount++;
-                    } else {
-                        autonNotDoneCount++;
-                    }
-                    if (!(data[AUTON_DEFENSE].equals("None"))) {
-                        for (int i = 0; i < autonDefenseCount.length; i++) {
-                            if (data[AUTON_DEFENSE].equals(defenseNames[i])) {
-                                autonDefenseCount[i]++;
+                    try {
+                        Integer.parseInt(data[data.length - 1]);
+                        if (Boolean.parseBoolean(data[CAN_AUTON])) {
+                            autonDoneCount++;
+                        } else {
+                            autonNotDoneCount++;
+                        }
+                        if (!(data[AUTON_DEFENSE].equals("None"))) {
+                            for (int i = 0; i < autonDefenseCount.length; i++) {
+                                if (data[AUTON_DEFENSE].equals(defenseNames[i])) {
+                                    autonDefenseCount[i]++;
+                                }
                             }
                         }
-                    }
-                    if (Boolean.parseBoolean(data[CAN_AUTON_SHOOT])) {
-                        if (data[AUTON_SHOOT_TYPE].equals("Low Goal") && Boolean.parseBoolean(data[AUTON_MADE_SHOT])) {
-                            autonLowGoalMadeCount++;
-                        } else if (data[AUTON_SHOOT_TYPE].equals("Low Goal")) {
-                            autonLowGoalMissedCount++;
+                        if (Boolean.parseBoolean(data[CAN_AUTON_SHOOT])) {
+                            if (data[AUTON_SHOOT_TYPE].equals("Low Goal") && Boolean.parseBoolean(data[AUTON_MADE_SHOT])) {
+                                autonLowGoalMadeCount++;
+                            } else if (data[AUTON_SHOOT_TYPE].equals("Low Goal")) {
+                                autonLowGoalMissedCount++;
+                            }
+                            if (data[AUTON_SHOOT_TYPE].equals("High Goal") && Boolean.parseBoolean(data[AUTON_MADE_SHOT])) {
+                                autonHighGoalMadeCount++;
+                            } else if (data[AUTON_SHOOT_TYPE].equals("High Goal")) {
+                                autonHighGoalMissedCount++;
+                            }
+                            autonShootCount++;
+                        } else {
+                            autonNoShootCount++;
                         }
-                        if (data[AUTON_SHOOT_TYPE].equals("High Goal") && Boolean.parseBoolean(data[AUTON_MADE_SHOT])) {
-                            autonHighGoalMadeCount++;
-                        } else if (data[AUTON_SHOOT_TYPE].equals("High Goal")) {
-                            autonHighGoalMissedCount++;
-                        }
-                        autonShootCount++;
-                    } else {
-                        autonNoShootCount++;
-                    }
-                    for (int i = 0; i < teleopDefenseCount.length; i++) {
-                        for (int j = 0; j < DEFENSE_TYPE.length; j++) {
-                            if (data[DEFENSE_TYPE[j]].equals(defenseNames[i])) {
-                                teleopDefenseCount[i] += Integer.parseInt(data[DEFENSE_AMOUNT[j]]);
+                        for (int i = 0; i < teleopDefenseCount.length; i++) {
+                            for (int j = 0; j < DEFENSE_TYPE.length; j++) {
+                                if (data[DEFENSE_TYPE[j]].equals(defenseNames[i])) {
+                                    teleopDefenseCount[i] += Integer.parseInt(data[DEFENSE_AMOUNT[j]]);
+                                }
                             }
                         }
+                        teleopHighGoalTotal += Float.parseFloat(data[HIGH_GOAL_SHOOT_PERCENT]);
+                        teleopLowGoalTotal += Float.parseFloat(data[LOW_GOAL_SHOOT_PERCENT]);
+                        totalShots += Integer.parseInt(data[SHOTS_PER_ROUND]);
+                        if (Boolean.parseBoolean(data[DID_CHALLENGE])) {
+                            challengeCount++;
+                        } else {
+                            noChallengeCount++;
+                        }
+                        if (Boolean.parseBoolean(data[DID_SCALE])) {
+                            scaleCount++;
+                        } else {
+                            noScaleCount++;
+                        }
+                        totalScore += Integer.parseInt(data[SCORE]);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
                     }
-                    teleopHighGoalTotal += Float.parseFloat(data[HIGH_GOAL_SHOOT_PERCENT]);
-                    teleopLowGoalTotal += Float.parseFloat(data[LOW_GOAL_SHOOT_PERCENT]);
-                    totalShots += Integer.parseInt(data[SHOTS_PER_ROUND]);
-                    if (Boolean.parseBoolean(data[DID_CHALLENGE])) {
-                        challengeCount++;
-                    } else {
-                        noChallengeCount++;
-                    }
-                    if (Boolean.parseBoolean(data[DID_SCALE])) {
-                        scaleCount++;
-                    } else {
-                        noScaleCount++;
-                    }
-                    totalScore += Integer.parseInt(data[SCORE]);
                 }
                 final int CAN_AUTON_PERCENT = 0,
                         AUTON_LOW_BAR_COUNT = 1,

@@ -308,12 +308,7 @@ public class ScoutingSheet extends Fragment {
         defense5AddPass = (Button) view.findViewById(R.id.defense_5_add_pass);
         defense5Passes = (TextView) view.findViewById(R.id.defense_5_passes);
         defense5SubtractPass = (Button) view.findViewById(R.id.defense_5_subtract_pass);
-
-        for (int i:defensePasses) {
-            i = 0;
-        }
-
-
+        
         defense1Passes.setText(Integer.toString(defensePasses[1-ONE]));
         defense2Passes.setText(Integer.toString(defensePasses[2-ONE]));
         defense3Passes.setText(Integer.toString(defensePasses[3-ONE]));
@@ -526,7 +521,6 @@ public class ScoutingSheet extends Fragment {
             autonDefenseScore = 10;
         }
         int autonGoalScore = 0;
-        int autonScore = autonDefenseScore + autonGoalScore;
         if (canAutonShoot.isChecked()) {
             RadioButton shootType = (RadioButton) view.findViewById(autonShootType.getCheckedRadioButtonId());
             if (shootType.getText().toString().equals("Low Goal")) {
@@ -535,6 +529,7 @@ public class ScoutingSheet extends Fragment {
                 autonGoalScore = 10;
             }
         }
+        int autonScore = autonDefenseScore + autonGoalScore;
         int endGameScore = 0;
         if (challenge.isChecked()) {
             endGameScore += 5;
