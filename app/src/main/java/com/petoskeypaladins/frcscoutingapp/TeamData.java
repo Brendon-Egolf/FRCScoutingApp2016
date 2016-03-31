@@ -37,7 +37,7 @@ public class TeamData extends AppCompatActivity {
         //#YOLOLOLOLOL
         final String ONE_SHADE_OF_GREY = "#696969";
         ColorDrawable toolbarColor;
-        try {
+        try {gi
             if (((int) (Integer.parseInt(tabletName.substring(tabletName.length() - 1)) / 4)) == 0){
                 toolbarColor = new ColorDrawable(Color.parseColor(RED));
                 toolbar.setBackgroundDrawable(toolbarColor);

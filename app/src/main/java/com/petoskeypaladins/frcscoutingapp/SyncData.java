@@ -237,6 +237,7 @@ public class SyncData extends android.support.v4.app.Fragment {
 //                Toast.makeText(getContext(), "Merged data length: " + mergedData.size(), Toast.LENGTH_SHORT).show();
                 BufferedWriter writer = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
                 for (int j = 0; j < mergedData.size(); j++) {
+                    boolean badRow = false;
                     for (int k = 0; k < ROW_LENGTH; k++) {
                         Log.d("write j: ", Integer.toString(j));
                         Log.d("write k: ", Integer.toString(k));
@@ -249,10 +250,12 @@ public class SyncData extends android.support.v4.app.Fragment {
                                 Log.d("writing", mergedData.get(j)[k]);
                             }
                         } catch (Exception e) {
-                            writer.write(",");
+                            badRow = true;
                         }
                     }
-                    writer.newLine();
+                    if (!badRow) {
+                        writer.newLine();
+                    }
                 }
                 writer.flush();
             }
