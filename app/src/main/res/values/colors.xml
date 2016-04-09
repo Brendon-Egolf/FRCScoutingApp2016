@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2E3192</color>
+    <color name="colorPrimary">#000</color>
     <color name="colorPrimaryDark">#27297b</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
@@ -13,5 +13,8 @@
     <color name="secondary_text_color">#89000000</color>
     <color name="the_red_alliance">#e51c23</color>
     <color name="the_blue_alliance">#1c23e5</color>
+    <color name="background">#eee</color>
+    <color name="border">#bbb</color>
+
 
 </resources>

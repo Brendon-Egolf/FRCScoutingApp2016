@@ -133,26 +133,6 @@
                     android:visibility="gone"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/margin_x_small">
-
-                <TextView android:id="@+id/defense_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/defense_label"
-                    android:textSize="@dimen/header"
-                    android:textStyle="bold"/>
-
-                <CheckBox android:id="@+id/defense_effective"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/defense_effective"
-                    android:textSize="@dimen/item_label"/>
-            </LinearLayout>
-
         </LinearLayout>
 
         <RelativeLayout android:id="@+id/teleoperated"

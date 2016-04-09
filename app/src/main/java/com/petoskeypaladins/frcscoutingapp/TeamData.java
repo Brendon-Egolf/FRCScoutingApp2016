@@ -37,7 +37,7 @@ public class TeamData extends AppCompatActivity {
         //#YOLOLOLOLOL
         final String ONE_SHADE_OF_GREY = "#696969";
         ColorDrawable toolbarColor;
-        try {gi
+        try {
             if (((int) (Integer.parseInt(tabletName.substring(tabletName.length() - 1)) / 4)) == 0){
                 toolbarColor = new ColorDrawable(Color.parseColor(RED));
                 toolbar.setBackgroundDrawable(toolbarColor);
@@ -74,8 +74,8 @@ public class TeamData extends AppCompatActivity {
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
                 if (statKeys[i].contains("defenses")) {
+                    int defenseCount = 0;
                     TextView defenseView = new TextView(this);
-                    defenseView.setText(statKeys[i] + ": ");
                     defenseView.setLayoutParams(layoutParamsUntabbed);
                     defenseView.setTextColor(getResources().getColor(R.color.black));
                     teamStatsView.addView(defenseView);
@@ -91,7 +91,9 @@ public class TeamData extends AppCompatActivity {
                         layoutParamsTabbed.setMarginStart(16);
                         data.setLayoutParams(layoutParamsTabbed);
                         teamStatsView.addView(data);
+                        defenseCount += Integer.parseInt(teamStats[j]);
                     }
+                    defenseView.setText(statKeys[i] + ": " + Integer.toString(defenseCount));
                     j--;
                 } else {
                     TextView data = new TextView(this);
