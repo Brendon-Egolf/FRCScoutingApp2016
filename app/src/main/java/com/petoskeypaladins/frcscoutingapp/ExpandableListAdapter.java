@@ -3,34 +3,29 @@ package com.petoskeypaladins.frcscoutingapp;
 import java.util.List;
 import java.util.Map;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Activity context;
-    private Map<String, List<String>> laptopCollections;
-    private List<String> laptops;
+    private Map<String, List<String>> items;
+    private List<String> groups;
 
-    public ExpandableListAdapter(Activity context, List<String> laptops,
-                                 Map<String, List<String>> laptopCollections) {
+    public ExpandableListAdapter(Activity context, List<String> groups,
+                                 Map<String, List<String>> items) {
         this.context = context;
-        this.laptopCollections = laptopCollections;
-        this.laptops = laptops;
+        this.items = items;
+        this.groups = groups;
     }
 
     public Object getChild(int groupPosition, int childPosition) {
-        return laptopCollections.get(laptops.get(groupPosition)).get(childPosition);
+        return items.get(groups.get(groupPosition)).get(childPosition);
     }
 
     public long getChildId(int groupPosition, int childPosition) {
@@ -47,22 +42,22 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.param_item, null);
         }
 
-        TextView item = (TextView) convertView.findViewById(R.id.laptop);
+        TextView item = (TextView) convertView.findViewById(R.id.item);
 
         item.setText(laptop);
         return convertView;
     }
 
     public int getChildrenCount(int groupPosition) {
-        return laptopCollections.get(laptops.get(groupPosition)).size();
+        return items.get(groups.get(groupPosition)).size();
     }
 
     public Object getGroup(int groupPosition) {
-        return laptops.get(groupPosition);
+        return groups.get(groupPosition);
     }
 
     public int getGroupCount() {
-        return laptops.size();
+        return groups.size();
     }
 
     public long getGroupId(int groupPosition) {
@@ -78,7 +73,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.param_group,
                     null);
         }
-        TextView item = (TextView) convertView.findViewById(R.id.laptop);
+        TextView item = (TextView) convertView.findViewById(R.id.item);
         item.setTypeface(null, Typeface.BOLD);
         item.setText(laptopName);
         return convertView;

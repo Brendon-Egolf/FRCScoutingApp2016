@@ -8,12 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
 import java.util.ArrayList;
 
 
@@ -35,9 +33,19 @@ public class FilterArrayAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.filter_view, parent, false);
         TextView filterType = (TextView) view.findViewById(R.id.filter_type);
-        EditText filterValue = (EditText) view.findViewById(R.id.filter_value);
+        final EditText filterValue = (EditText) view.findViewById(R.id.filter_value);
+        ImageView remove = (ImageView) view.findViewById(R.id.remove);
 
         filterType.setText(filterList.get(position));
+        if (filterValues.size() <= position) {
+            filterValues.add(0.);
+        }
+        if (filterValues.get(position) > 0) {
+            filterValue.setHint(Double.toString(filterValues.get(position)));
+        } else {
+            filterValue.setHint("Value");
+        }
+
 
         filterValue.addTextChangedListener(new TextWatcher() {
             @Override
@@ -50,7 +58,6 @@ public class FilterArrayAdapter extends ArrayAdapter<String> {
                 try {
                     filterValues.set(position, Double.parseDouble(s.toString()));
                 } catch (NumberFormatException e) {
-                    e.printStackTrace();
                     filterValues.set(position, -1.);
                 }
             }
@@ -58,6 +65,13 @@ public class FilterArrayAdapter extends ArrayAdapter<String> {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRemove(position);
             }
         });
 
@@ -71,5 +85,11 @@ public class FilterArrayAdapter extends ArrayAdapter<String> {
 
     public double getValue(int position) {
         return filterValues.get(position);
+    }
+
+    public void onRemove(int position) {
+        filterList.remove(position);
+        filterValues.remove(position);
+        notifyDataSetChanged();
     }
 }

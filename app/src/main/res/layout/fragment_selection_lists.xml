@@ -113,11 +113,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Refresh Filter"/>
-
-            <TextView android:id="@+id/team_count"
-                android:layout_marginLeft="@dimen/margin_x_small"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
         </LinearLayout>
 
         <ListView android:id="@+id/filter_list"

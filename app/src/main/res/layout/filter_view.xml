@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@drawable/card_background_selector"
-    android:descendantFocusability="afterDescendants">
+    android:focusableInTouchMode="false"
+    android:focusable="false"
+    android:background="@drawable/card_background_selector">
 
     <TextView android:id="@+id/filter_type"
         android:layout_width="wrap_content"
@@ -16,11 +17,13 @@
     <EditText android:id="@+id/filter_value"
         android:layout_width="64dp"
         android:layout_height="match_parent"
-        android:layout_toRightOf="@id/filter_type"
+        android:layout_toLeftOf="@+id/remove"
+        android:focusableInTouchMode="true"
         android:gravity="center_vertical|center_horizontal"
         android:hint="value"
         android:textSize="16dp"
-        android:layout_marginLeft="@dimen/margin_x_small" />
+        android:layout_marginLeft="@dimen/margin_x_small"
+        android:inputType="numberDecimal" />
 
     <ImageView android:id="@id/remove"
         android:layout_width="32dp"
@@ -28,7 +31,6 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/delete"
         android:layout_marginRight="@dimen/margin_x_small"
-        android:layout_centerVertical="true"/>
-
-
+        android:layout_centerVertical="true"
+        android:clickable="true"/>
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,18 +39,22 @@ import com.mobeta.android.dslv.DragSortListView;
 
 
 public class DataView extends Fragment {
-    JSONArray teamJSON;
+    JSONArray teamJson;
 
     List<String> paramGroups;
     List<String> paramList;
     Map<String, List<String>> paramCollection;
     ExpandableListView expListView;
     ArrayAdapter<String> sortAdapter;
-    ArrayAdapter<String> filterAdapter;
+    FilterArrayAdapter filterAdapter;
     DragSortListView sortList;
     ListView filterList;
     ArrayList<String> sortParameters = new ArrayList();
     ArrayList<String> filterParameters = new ArrayList();
+    HashMap<String, Integer> parameterKeys;
+    ArrayList<JSONObject> teamList;
+    TeamArrayAdapter teamAdapter;
+    ListView teamListView;
 
     private DragSortListView.DropListener onSortDrop = new DragSortListView.DropListener() {
         @Override
@@ -57,6 +63,7 @@ public class DataView extends Fragment {
                 String item = sortAdapter.getItem(from);
                 sortAdapter.remove(item);
                 sortAdapter.insert(item, to);
+                refreshSort();
             }
         }
     };
@@ -67,11 +74,12 @@ public class DataView extends Fragment {
         public void remove(int which)
         {
             sortAdapter.remove(sortAdapter.getItem(which));
+            refreshSort();
         }
     };
 
     public DataView() {
-        // Required empty public constructor
+        initializeParameterKeys();
     }
 
     @Override
@@ -82,23 +90,18 @@ public class DataView extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view =  inflater.inflate(R.layout.fragment_data_view, container, false);
-        final ArrayList<JSONObject> teamList = new ArrayList<>();
-        try {
-            teamJSON = new JSONArray(loadJSONFromAsset());
-            for (int i = 0; i < teamJSON.length(); i++) {
-                teamList.add((JSONObject) teamJSON.get(i));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        teamList = new ArrayList<>();
 
-        ListView listView = (ListView) view.findViewById(R.id.list);
-        listView.setAdapter(new TeamArrayAdapter(getContext(),
+        loadTeamList();
+
+        teamListView = (ListView) view.findViewById(R.id.list);
+        teamAdapter = new TeamArrayAdapter(getContext(),
                 android.R.layout.simple_list_item_1,
                 R.layout.team_list_view,
-                teamList));
+                teamList);
+        teamListView.setAdapter(teamAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        teamListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), TeamData.class);
@@ -117,38 +120,46 @@ public class DataView extends Fragment {
         });
 
         final RelativeLayout sortDropdown = (RelativeLayout) view.findViewById(R.id.sort);
+        final RelativeLayout filterDropdown = (RelativeLayout) view.findViewById(R.id.filter);
+        final LinearLayout sortFactors = (LinearLayout) view.findViewById(R.id.sort_factors);
+        final ImageView sortArrow = (ImageView) view.findViewById(R.id.sort_drop);
+        final LinearLayout filterFactors = (LinearLayout) view.findViewById(R.id.filter_factors);
+        final ImageView filterArrow = (ImageView) view.findViewById(R.id.filter_drop);
 
         sortDropdown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final LinearLayout sortFactors = (LinearLayout) view.findViewById(R.id.sort_factors);
-                final ImageView dropDown = (ImageView) view.findViewById(R.id.sort_drop);
                 if (sortFactors.getVisibility() == (View.GONE)) {
                     sortFactors.setVisibility(View.VISIBLE);
-                    dropDown.setImageDrawable(getResources().getDrawable(R.drawable.dropup_arrow));
+                    sortArrow.setImageDrawable(getResources().getDrawable(R.drawable.dropup_arrow));
                 } else {
                     sortFactors.setVisibility(View.GONE);
-                    dropDown.setImageDrawable(getResources().getDrawable(R.drawable.dropdown_arrow));
+                    sortArrow.setImageDrawable(getResources().getDrawable(R.drawable.dropdown_arrow));
                 }
+                filterFactors.setVisibility(View.GONE);
+                filterArrow.setImageDrawable(getResources().getDrawable(R.drawable.dropdown_arrow));
             }
         });
 
-        final RelativeLayout filterDropdown = (RelativeLayout) view.findViewById(R.id.filter);
 
         filterDropdown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final LinearLayout sortFactors = (LinearLayout) view.findViewById(R.id.filter_factors);
-                final ImageView dropDown = (ImageView) view.findViewById(R.id.filter_drop);
-                if (sortFactors.getVisibility() == (View.GONE)) {
-                    sortFactors.setVisibility(View.VISIBLE);
-                    dropDown.setImageDrawable(getResources().getDrawable(R.drawable.dropup_arrow));
+                if (filterFactors.getVisibility() == (View.GONE)) {
+                    filterFactors.setVisibility(View.VISIBLE);
+                    filterArrow.setImageDrawable(getResources().getDrawable(R.drawable.dropup_arrow));
                 } else {
-                    sortFactors.setVisibility(View.GONE);
-                    dropDown.setImageDrawable(getResources().getDrawable(R.drawable.dropdown_arrow));
+                    filterFactors.setVisibility(View.GONE);
+                    filterArrow.setImageDrawable(getResources().getDrawable(R.drawable.dropdown_arrow));
                 }
+                sortFactors.setVisibility(View.GONE);
+                sortArrow.setImageDrawable(getResources().getDrawable(R.drawable.dropdown_arrow));
             }
         });
+
+        final TextView teamCount = (TextView) view.findViewById(R.id.team_count);
+
+        teamCount.setText(Integer.toString(teamList.size()) + " teams");
 
         final Button addSort = (Button) view.findViewById(R.id.add_sort);
 
@@ -190,7 +201,36 @@ public class DataView extends Fragment {
 
         filterList = (ListView) view.findViewById(R.id.filter_list);
 
+        filterAdapter = new FilterArrayAdapter(getContext(),
+                android.R.layout.simple_list_item_1,
+                R.layout.filter_view,
+                filterParameters);
+
+        filterList.setAdapter(filterAdapter);
+
+        Button filterRefresh = (Button) view.findViewById(R.id.filter_refresh);
+
+        filterRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshFilter();
+                teamCount.setText(teamList.size() + " teams");
+            }
+        });
+
         return view;
+    }
+
+    public void loadTeamList() {
+        try {
+            teamJson = new JSONArray(loadJSONFromAsset());
+            teamList = new ArrayList<>();
+            for (int i = 0; i < teamJson.length(); i++) {
+                teamList.add((JSONObject) teamJson.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String loadJSONFromAsset() {
@@ -378,9 +418,14 @@ public class DataView extends Fragment {
                 final String groupName = (String) expListAdapter.getGroup(groupPosition);
                 final String childName = (String) expListAdapter.getChild(
                         groupPosition, childPosition);
-                sortParameters.add(groupName + " " + childName);
-                Toast.makeText(getContext(), groupName + " " + childName, Toast.LENGTH_SHORT).show();
+                if (!groupName.equals("General")) {
+                    sortParameters.add(groupName + " " + childName);
+                } else {
+                    sortParameters.add(childName);
+                }
+//                Toast.makeText(getContext(), groupName + " " + childName, Toast.LENGTH_SHORT).show();
                 sortAdapter.notifyDataSetChanged();
+                refreshSort();
                 alertDialog.cancel();
                 return true;
             }
@@ -413,8 +458,12 @@ public class DataView extends Fragment {
                 final String groupName = (String) expListAdapter.getGroup(groupPosition);
                 final String childName = (String) expListAdapter.getChild(
                         groupPosition, childPosition);
-                filterParameters.add(groupName + " " + childName);
-                Toast.makeText(getContext(), groupName + " " + childName, Toast.LENGTH_SHORT).show();
+                if (!groupName.equals("General")) {
+                    filterParameters.add(groupName + " " + childName);
+                } else {
+                    filterParameters.add(childName);
+                }
+//                Toast.makeText(getContext(), groupName + " " + childName, Toast.LENGTH_SHORT).show();
                 filterAdapter.notifyDataSetChanged();
                 alertDialog.cancel();
                 return true;
@@ -469,5 +518,144 @@ public class DataView extends Fragment {
 
     public void alert(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void initializeParameterKeys() {
+        parameterKeys = new HashMap<>();
+        parameterKeys.put("Auton percentage", 0);
+        parameterKeys.put("Auton Low Bar", 1);
+        parameterKeys.put("Auton Portcullis", 2);
+        parameterKeys.put("Auton Cheval de Frise", 3);
+        parameterKeys.put("Auton Moat", 4);
+        parameterKeys.put("Auton Ramparts", 5);
+        parameterKeys.put("Auton Drawbridge", 6);
+        parameterKeys.put("Auton Sally Port", 7);
+        parameterKeys.put("Auton Rock Wall", 8);
+        parameterKeys.put("Auton Rough Terrain", 9);
+        parameterKeys.put("Auton attempts shot percentage", 10);
+        parameterKeys.put("Auton high goal percentage", 11);
+        parameterKeys.put("Auton low goal percentage", 12);
+        parameterKeys.put("Teleop Low Bar", 13);
+        parameterKeys.put("Teleop Portcullis", 14);
+        parameterKeys.put("Teleop Cheval de Frise", 15);
+        parameterKeys.put("Teleop Moat", 16);
+        parameterKeys.put("Teleop Ramparts", 17);
+        parameterKeys.put("Teleop Drawbridge", 18);
+        parameterKeys.put("Teleop Sally Port", 19);
+        parameterKeys.put("Teleop Rock Wall", 20);
+        parameterKeys.put("Teleop Rough Terrain", 21);
+        parameterKeys.put("Teleop high goal percentage", 22);
+        parameterKeys.put("Teleop low goal percentage", 23);
+        parameterKeys.put("Average shots per round", 24);
+        parameterKeys.put("Total shots", 25);
+        parameterKeys.put("Challenge percentage", 26);
+        parameterKeys.put("Scale percentage", 27);
+        parameterKeys.put("Average Score", 28);
+
+    }
+
+    public void refreshSort() {
+        int switched = 1;
+        JSONObject team;
+        JSONObject teamAbove;
+        JSONObject temp;
+
+        while (switched > 0) {
+            switched = 0;
+            for (int i = 1; i < teamList.size(); i++) {
+                team = teamList.get(i);
+                teamAbove = teamList.get(i - 1);
+
+                if (sortParameters.size() > 0) {
+                    if (getTeamStat(team, sortParameters.get(0)) > getTeamStat(teamAbove, sortParameters.get(0))) {
+                        teamList.set(i - 1, team);
+                        teamList.set(i, teamAbove);
+                        switched++;
+                    }
+                } else {
+                    if (getTeamNumber(team) < getTeamNumber(teamAbove)) {
+                        teamList.set(i - 1, team);
+                        teamList.set(i, teamAbove);
+                        switched++;
+                    }
+                }
+            }
+        }
+
+        String previousParameter;
+        String currentParameter;
+
+        for (int i = 1; i < sortParameters.size(); i++) {
+            switched = 1;
+            previousParameter = sortParameters.get(i - 1);
+            currentParameter = sortParameters.get(i);
+
+            while (switched > 0) {
+                switched = 0;
+
+                for (int j = 1; j < teamList.size(); j++) {
+                    team = teamList.get(j);
+                    teamAbove = teamList.get(j - 1);
+
+                    if (getTeamStat(team, previousParameter) == getTeamStat(teamAbove, previousParameter)) {
+                        if (getTeamStat(team, currentParameter) > getTeamStat(teamAbove, currentParameter)) {
+                            teamList.set(j - 1, team);
+                            teamList.set(j, teamAbove);
+                            switched++;
+                        }
+                    }
+                }
+            }
+        }
+        teamAdapter.notifyDataSetChanged();
+    }
+
+    public double getTeamStat(JSONObject team, String key) {
+        try {
+            String stringValue = loadTeamStats(Integer.toString(team.getInt("team_number")))[parameterKeys.get(key)];
+            double value;
+            if (stringValue.contains("%")) {
+                value = Double.parseDouble(stringValue.substring(0, stringValue.length() - 1));
+            } else {
+                value = Double.parseDouble(stringValue);
+            }
+            return value;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public int getTeamNumber(JSONObject team) {
+        try {
+            return team.getInt("team_number");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public void refreshFilter() {
+        JSONObject team;
+        String currentStat;
+
+        loadTeamList();
+
+        for (int i = 0; i < filterParameters.size(); i++) {
+            currentStat = filterParameters.get(i);
+            for (int j = teamList.size() - 1; j > -1; j--) {
+                team = teamList.get(j);
+                if (getTeamStat(team, currentStat) < filterAdapter.getValue(i)) {
+                    teamList.remove(j);
+                }
+            }
+        }
+        teamAdapter = new TeamArrayAdapter(getContext(),
+                android.R.layout.simple_list_item_1,
+                R.layout.filter_view,
+                teamList);
+
+        teamListView.setAdapter(teamAdapter);
+        refreshSort();
     }
 }

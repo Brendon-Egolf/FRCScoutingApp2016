@@ -1,6 +1,7 @@
 package com.petoskeypaladins.frcscoutingapp;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarLayout appBarLayout;
     private String tabletName;
     private ColorDrawable toolbarColor;
+    static private ViewPagerAdapter adapter;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -38,23 +40,23 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         appBarLayout = (AppBarLayout) findViewById(R.id.coordinator);
         try {
-            if (((int) (Integer.parseInt(tabletName.substring(tabletName.length() - 1)) / 4)) == 0){
+            if ((Integer.parseInt(tabletName.substring(tabletName.length() - 1)) / 4) == 0){
                 toolbarColor = new ColorDrawable(Color.parseColor(RED));
-                toolbar.setBackgroundDrawable(toolbarColor);
-                tabLayout.setBackgroundDrawable(toolbarColor);
-                appBarLayout.setBackgroundDrawable(toolbarColor);
+                toolbar.setBackground(toolbarColor);
+                tabLayout.setBackground(toolbarColor);
+                appBarLayout.setBackground(toolbarColor);
             } else {
                 toolbarColor = new ColorDrawable(Color.parseColor(BLUE));
-                toolbar.setBackgroundDrawable(toolbarColor);
-                tabLayout.setBackgroundDrawable(toolbarColor);
-                appBarLayout.setBackgroundDrawable(toolbarColor);
+                toolbar.setBackground(toolbarColor);
+                tabLayout.setBackground(toolbarColor);
+                appBarLayout.setBackground(toolbarColor);
             }
         } catch (Exception e) {
             e.printStackTrace();
             toolbarColor = new ColorDrawable(Color.parseColor(ONE_SHADE_OF_GREY));
-            toolbar.setBackgroundDrawable(toolbarColor);
-            tabLayout.setBackgroundDrawable(toolbarColor);
-            appBarLayout.setBackgroundDrawable(toolbarColor);
+            toolbar.setBackground(toolbarColor);
+            tabLayout.setBackground(toolbarColor);
+            appBarLayout.setBackground(toolbarColor);
         }
         toolbar.setTitle(tabletName);
         setSupportActionBar(toolbar);
@@ -69,10 +71,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ScoutingSheet(), "Scout");
         adapter.addFragment(new DataView(), "View Data");
+        adapter.addFragment(new SelectionLists(), "Lists");
         adapter.addFragment(new SyncData(), "Sync Data");
         viewPager.setAdapter(adapter);
+    }
+
+    public static android.support.v4.app.Fragment getTabFragment(int position) {
+        return adapter.getItem(position);
+    }
+
+    public static android.support.v4.app.Fragment getTabFragment(String title) {
+        int i;
+        for (i = 0; i < adapter.getCount(); i++) {
+            if (adapter.getPageTitle(i).equals(title))
+                break;
+        }
+        return adapter.getItem(i);
     }
 }
