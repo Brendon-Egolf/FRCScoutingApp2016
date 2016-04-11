@@ -2,7 +2,9 @@ package com.petoskeypaladins.frcscoutingapp;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
@@ -33,7 +35,7 @@ public class SelectionList {
         sortController.setRemoveEnabled(true);
         sortController.setClickRemoveId(R.id.remove);
         sortController.setSortEnabled(true);
-        sortController.setDragInitMode(1);
+        sortController.setDragInitMode(DragSortController.ON_DOWN);
         sortController.setRemoveMode(DragSortController.CLICK_REMOVE);
 
         teamList.setFloatViewManager(sortController);
@@ -55,13 +57,13 @@ public class SelectionList {
     private DragSortListView.RemoveListener onSortRemove = new DragSortListView.RemoveListener()
     {
         @Override
-        public void remove(int which)
-        {
+        public void remove(int which) {
             adapter.remove(adapter.getItem(which));
         }
     };
 
     public void addTeam(String team) {
         teams.add(team);
+        adapter.notifyDataSetChanged();
     }
 }

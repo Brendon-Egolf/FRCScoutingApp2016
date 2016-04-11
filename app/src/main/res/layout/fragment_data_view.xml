@@ -9,6 +9,69 @@
     android:focusableInTouchMode="false"
     android:background="@color/background">
 
+    <RelativeLayout android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/drop_background"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:text="Filter"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true" />
+
+        <ImageView android:id="@+id/filter_drop"
+            android:layout_width="64dp"
+            android:layout_height="12dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/dropdown_arrow"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <LinearLayout android:id="@+id/filter_factors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:focusableInTouchMode="false"
+        android:layout_margin="@dimen/margin_small">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button android:id="@+id/add_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Filter"/>
+
+            <Button android:id="@+id/filter_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Refresh Filter"/>
+
+            <TextView android:id="@+id/team_count"
+                android:layout_marginLeft="@dimen/margin_x_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ListView android:id="@+id/filter_list"
+            android:layout_width="match_parent"
+            android:layout_height="256dp"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:focusableInTouchMode="false"
+            android:layout_margin="@dimen/margin_x_small"/>
+    </LinearLayout>
+
     <RelativeLayout android:id="@+id/sort"
         android:layout_width="match_parent"
         android:layout_height="36dp"
@@ -66,69 +129,6 @@
             dslv:sort_enabled="true"
             dslv:track_drag_sort="false"
             dslv:use_default_controller="true"  />
-    </LinearLayout>
-
-    <RelativeLayout android:id="@+id/filter"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="@color/drop_background"
-        android:clickable="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:text="Filter"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true" />
-
-        <ImageView android:id="@+id/filter_drop"
-            android:layout_width="64dp"
-            android:layout_height="12dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/dropdown_arrow"
-            android:layout_alignParentRight="true" />
-    </RelativeLayout>
-
-    <LinearLayout android:id="@+id/filter_factors"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:focusableInTouchMode="false"
-        android:layout_margin="@dimen/margin_small">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button android:id="@+id/add_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add Filter"/>
-
-            <Button android:id="@+id/filter_refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Refresh Filter"/>
-
-            <TextView android:id="@+id/team_count"
-                android:layout_marginLeft="@dimen/margin_x_small"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-        <ListView android:id="@+id/filter_list"
-            android:layout_width="match_parent"
-            android:layout_height="256dp"
-            android:listSelector="@android:color/transparent"
-            android:cacheColorHint="@android:color/transparent"
-            android:divider="@null"
-            android:dividerHeight="10dp"
-            android:focusableInTouchMode="false"
-            android:layout_margin="@dimen/margin_x_small"/>
     </LinearLayout>
 
     <ListView android:id="@+id/list"

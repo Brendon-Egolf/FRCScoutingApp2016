@@ -32,5 +32,6 @@
         android:src="@drawable/delete"
         android:layout_marginRight="@dimen/margin_x_small"
         android:layout_centerVertical="true"
+        android:alpha=".6"
         android:clickable="true"/>
 </RelativeLayout>

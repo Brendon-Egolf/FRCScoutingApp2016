@@ -437,8 +437,8 @@ public class DataView extends Fragment {
 
     public void displayFilterChooser() {
         final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-        View popup = getLayoutInflater(Bundle.EMPTY).inflate(R.layout.param_list, null);
-        alertBuilder.setView(popup);
+        View view = getLayoutInflater(Bundle.EMPTY).inflate(R.layout.param_list, null);
+        alertBuilder.setView(view);
         alertBuilder.setTitle("Filter Parameters");
         final AlertDialog alertDialog = alertBuilder.create();
 
@@ -446,7 +446,7 @@ public class DataView extends Fragment {
 
         createCollection();
 
-        expListView = (ExpandableListView) popup.findViewById(R.id.list_view);
+        expListView = (ExpandableListView) view.findViewById(R.id.list_view);
         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
                 getActivity(), paramGroups, paramCollection);
         expListView.setAdapter(expListAdapter);

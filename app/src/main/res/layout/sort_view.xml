@@ -19,6 +19,7 @@
         android:layout_toLeftOf="@+id/remove"
         android:src="@drawable/reorder"
         android:layout_marginRight="@dimen/margin_x_small"
+        android:alpha=".6"
         android:layout_centerVertical="true"/>
 
     <ImageView android:id="@id/remove"
@@ -27,6 +28,7 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/delete"
         android:layout_marginRight="@dimen/margin_x_small"
+        android:alpha=".6"
         android:layout_centerVertical="true"/>
 
 
