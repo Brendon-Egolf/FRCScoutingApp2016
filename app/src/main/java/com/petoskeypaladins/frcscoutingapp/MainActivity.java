@@ -74,12 +74,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 SelectionLists selectionLists = (SelectionLists) getTabFragment("Lists");
-                boolean loaded = false;
                 if (adapter.getPageTitle(position).equals("Lists")) {
                     selectionLists.load();
-                    loaded = true;
-                } else if (loaded) {
+                    selectionLists.unlockCollapse();
+                } else if (selectionLists.isLoaded()) {
                     selectionLists.save();
+                    selectionLists.collapseAll();
                 }
             }
 
@@ -114,5 +114,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return adapter.getItem(i);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SelectionLists selectionLists = (SelectionLists) getTabFragment("Lists");
+        selectionLists.save();
     }
 }

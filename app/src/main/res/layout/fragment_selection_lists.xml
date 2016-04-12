@@ -15,7 +15,7 @@
         android:layout_marginBottom="48dp"
         android:background="#fff"/>
 
-    <ImageButton android:id="@+id/add_list"
+<!--    <ImageButton android:id="@+id/add_list"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginRight="24dp"
@@ -26,5 +26,5 @@
         android:tint="@android:color/white"
         android:background="@drawable/oval_ripple"
         android:elevation="2dp"
-        android:stateListAnimator="@anim/button_elevation" />
+        android:stateListAnimator="@anim/button_elevation" />-->
 </RelativeLayout>

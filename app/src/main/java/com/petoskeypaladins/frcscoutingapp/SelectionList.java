@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -65,5 +66,16 @@ public class SelectionList {
     public void addTeam(String team) {
         teams.add(team);
         adapter.notifyDataSetChanged();
+    }
+
+    public void clearTeams() {
+        for (int i = 0; i < teams.size(); i++) {
+            teams.remove(i);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    public ArrayList<String> getTeams() {
+        return teams;
     }
 }

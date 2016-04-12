@@ -25,15 +25,15 @@
             android:layout_height="30dp"
             android:src="@drawable/add"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/delete_list"/>
+            android:layout_toLeftOf="@+id/drop_arrow"/>
 
-        <ImageView android:id="@+id/delete_list"
+<!--        <ImageView android:id="@+id/delete_list"
             android:layout_width="26dp"
             android:layout_height="30dp"
             android:alpha=".5"
             android:layout_toLeftOf="@+id/drop_arrow"
             android:layout_centerVertical="true"
-            android:src="@drawable/delete"/>
+            android:src="@drawable/delete"/>-->
 
         <ImageView android:id="@+id/drop_arrow"
             android:layout_width="36dp"
@@ -42,28 +42,33 @@
             android:src="@drawable/dropdown_arrow"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
-
-    <com.mobeta.android.dslv.DragSortListView android:id="@+id/sub_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="256dp"
-        android:listSelector="@android:color/transparent"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@null"
-        android:dividerHeight="10dp"
-        android:layout_margin="@dimen/margin_x_small"
+        android:layout_height="wrap_content"
         android:layout_below="@id/group_title"
-        dslv:collapsed_height="2dp"
-        dslv:drag_enabled="true"
-        dslv:drag_handle_id="@id/reorder"
-        dslv:click_remove_id="@id/remove"
-        dslv:drag_scroll_start="0.33"
-        dslv:drag_start_mode="onDown"
-        dslv:float_alpha="0.6"
-        dslv:max_drag_scroll_speed="0.5"
-        dslv:remove_enabled="true"
-        dslv:remove_mode="flingRemove"
-        dslv:slide_shuffle_speed="0.3"
-        dslv:sort_enabled="true"
-        dslv:track_drag_sort="false"
-        dslv:use_default_controller="true" />
+        android:background="@color/background">
+
+        <com.mobeta.android.dslv.DragSortListView android:id="@+id/sub_list"
+            android:layout_width="match_parent"
+            android:layout_height="256dp"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="10dp"
+            android:layout_margin="@dimen/margin_x_small"
+            dslv:collapsed_height="2dp"
+            dslv:drag_enabled="true"
+            dslv:drag_handle_id="@id/reorder"
+            dslv:click_remove_id="@id/remove"
+            dslv:drag_scroll_start="0.33"
+            dslv:drag_start_mode="onDown"
+            dslv:float_alpha="0.6"
+            dslv:max_drag_scroll_speed="0.5"
+            dslv:remove_enabled="true"
+            dslv:remove_mode="flingRemove"
+            dslv:slide_shuffle_speed="0.3"
+            dslv:sort_enabled="true"
+            dslv:track_drag_sort="false"
+            dslv:use_default_controller="true" />
+    </LinearLayout>
 </RelativeLayout>

@@ -29,6 +29,7 @@ public class ListGroupAdapter extends ArrayAdapter<String> {
     private ArrayList<String> groupList;
     private ArrayList<ArrayList<String>> teamLists;
     private ArrayList<SelectionList> selectionLists;
+    private boolean collapsed;
 
     public ListGroupAdapter(Context context, int resource, int resourceId, ArrayList<String> groupList) {
         super(context, resource, resourceId, groupList);
@@ -37,11 +38,21 @@ public class ListGroupAdapter extends ArrayAdapter<String> {
         selectionLists = new ArrayList<>();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        int visibility;
+        try {
+            visibility = convertView.findViewById(R.id.sub_list).getVisibility();
+        } catch (NullPointerException e) {
+            visibility = View.GONE;
+        }
+        if (collapsed)
+            visibility = View.GONE;
         final LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.list_header, parent, false);
         final DragSortListView selectionListView = (DragSortListView) view.findViewById(R.id.sub_list);
+        selectionListView.setVisibility(visibility);
         TextView groupTitle = (TextView) view.findViewById(R.id.list_title);
         final ImageView dropArrow = (ImageView) view.findViewById(R.id.drop_arrow);
         ImageView addTeam = (ImageView) view.findViewById(R.id.add_team);
@@ -50,9 +61,10 @@ public class ListGroupAdapter extends ArrayAdapter<String> {
 
         if (teamLists.size() <= position) {
             teamLists.add(new ArrayList<String>());
-            selectionListView.setVisibility(View.GONE);
-        } else {
-            selectionListView.setVisibility(selectionListView.getVisibility());
+        }
+
+        if (visibility == View.VISIBLE) {
+            dropArrow.setImageDrawable(getContext().getDrawable(R.drawable.dropup_arrow));
         }
 
         selectionLists.add(new SelectionList(getContext(), selectionListView, teamLists.get(position)));
@@ -72,14 +84,14 @@ public class ListGroupAdapter extends ArrayAdapter<String> {
             }
         });
 
-        ImageView deleteList = (ImageView) view.findViewById(R.id.delete_list);
-        deleteList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                groupList.remove(position);
-                notifyDataSetChanged();
-            }
-        });
+//        ImageView deleteList = (ImageView) view.findViewById(R.id.delete_list);
+//        deleteList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                groupList.remove(position);
+//                notifyDataSetChanged();
+//            }
+//        });
 
         addTeam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,5 +132,25 @@ public class ListGroupAdapter extends ArrayAdapter<String> {
     @Override
     public int getCount(){
         return groupList.size();
+    }
+
+    public ArrayList<String> getSubList(int position) {
+        return selectionLists.get(position).getTeams();
+    }
+
+    public void addTeam(int position, String team) {
+        selectionLists.get(position).addTeam(team);
+    }
+
+    public void clearList(int position) {
+        selectionLists.get(position).clearTeams();
+    }
+
+    public boolean getReady() {
+        return selectionLists.size() == getCount();
+    }
+
+    public void setCollapsed(boolean collapsed) {
+        this.collapsed = collapsed;
     }
 }
