@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ScoutingSheet(), "Scout");
         adapter.addFragment(new DataView(), "View Data");
+        adapter.addFragment(new DefenseRecommender(), "Defenses");
         adapter.addFragment(new SelectionLists(), "Lists");
         adapter.addFragment(new SyncData(), "Sync Data");
         viewPager.setAdapter(adapter);

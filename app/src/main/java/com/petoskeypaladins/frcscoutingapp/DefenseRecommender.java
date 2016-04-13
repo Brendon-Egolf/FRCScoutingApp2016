@@ -1,5 +1,6 @@
 package com.petoskeypaladins.frcscoutingapp;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,8 @@ import java.util.Map;
 
 
 public class DefenseRecommender extends Fragment {
+    private static final int POSITIONS = 6;
+
     public DefenseRecommender() {
     }
 
@@ -50,6 +53,23 @@ public class DefenseRecommender extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view =  inflater.inflate(R.layout.fragment_data_view, container, false);
+        LinearLayout teamContainer = (LinearLayout) view.findViewById(R.id.team_container);
+        ArrayList<TeamPositionView> teamPositionViews = new ArrayList<>();
+        String alliance;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        for (int i = 1; i <= POSITIONS; i++) {
+            if (i <= 3) {
+                alliance = "Red ";
+                teamPositionViews.add(new TeamPositionView(getContext(), alliance + i));
+            } else {
+                alliance = "Blue ";
+                teamPositionViews.add(new TeamPositionView(getContext(), alliance + (i - 3)));
+            }
+            teamContainer.addView(teamPositionViews.get(i - 1));
+        }
+
+
 
         return view;
     }
