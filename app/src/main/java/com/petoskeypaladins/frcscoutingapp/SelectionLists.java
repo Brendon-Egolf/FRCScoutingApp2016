@@ -23,16 +23,20 @@ import java.util.Arrays;
 
 
 public class SelectionLists extends Fragment {
-    private ListGroupAdapter adapter;
+    private static ListGroupAdapter adapter;
     private ArrayList<String> lists;
     private BufferedWriter writer;
     private final String FILENAME = "selection-lists";
-    private File file;
-    private boolean loaded;
+    private static File file;
+    private static boolean loaded;
 
     public SelectionLists() {
         file = new File("/storage/emulated/0/" + FILENAME + ".csv");
         loaded = false;
+    }
+
+    public static boolean isLoaded() {
+        return loaded;
     }
 
     @Override
@@ -103,11 +107,8 @@ public class SelectionLists extends Fragment {
         return view;
     }
 
-    public void load() {
+    public static void load() {
         BufferedReader reader;
-        while (!adapter.getReady())
-            Log.d("waiting", Boolean.toString(adapter.getReady()));
-
         loaded = true;
 
         try {
@@ -169,10 +170,6 @@ public class SelectionLists extends Fragment {
             e.printStackTrace();
             Toast.makeText(getContext(), "IO error", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public boolean isLoaded() {
-        return loaded;
     }
 
     public void collapseAll() {

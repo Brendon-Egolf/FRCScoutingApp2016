@@ -126,6 +126,8 @@ public class ListGroupAdapter extends ArrayAdapter<String> {
             }
         });
 
+        getReady();
+
         return view;
     }
 
@@ -146,8 +148,10 @@ public class ListGroupAdapter extends ArrayAdapter<String> {
         selectionLists.get(position).clearTeams();
     }
 
-    public boolean getReady() {
-        return selectionLists.size() == getCount();
+    public void getReady() {
+        if (selectionLists.size() == getCount()) {
+            SelectionLists.load();
+        }
     }
 
     public void setCollapsed(boolean collapsed) {

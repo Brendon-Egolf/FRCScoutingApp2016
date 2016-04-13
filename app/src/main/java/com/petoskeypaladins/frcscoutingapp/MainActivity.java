@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.bluetooth.BluetoothAdapter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -12,8 +13,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -40,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         appBarLayout = (AppBarLayout) findViewById(R.id.coordinator);
         try {
-            if ((Integer.parseInt(tabletName.substring(tabletName.length() - 1)) / 4) == 0){
+            if ((Integer.parseInt(tabletName.substring(tabletName.length() - 1)) / 4) == 0) {
                 toolbarColor = new ColorDrawable(Color.parseColor(RED));
                 toolbar.setBackground(toolbarColor);
                 tabLayout.setBackground(toolbarColor);
@@ -73,9 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                SelectionLists selectionLists = (SelectionLists) getTabFragment("Lists");
+                final SelectionLists selectionLists = (SelectionLists) getTabFragment("Lists");
                 if (adapter.getPageTitle(position).equals("Lists")) {
-                    selectionLists.load();
                     selectionLists.unlockCollapse();
                 } else if (selectionLists.isLoaded()) {
                     selectionLists.save();
@@ -85,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
