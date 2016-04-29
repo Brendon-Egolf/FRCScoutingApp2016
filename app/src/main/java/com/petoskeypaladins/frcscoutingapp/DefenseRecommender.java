@@ -66,6 +66,7 @@ public class DefenseRecommender extends Fragment {
                 alliance = "Blue ";
                 teamPositionViews.add(new TeamPositionView(getContext(), alliance + (i - 3)));
             }
+            teamPositionViews.get(i - 1).setLayoutParams(layoutParams);
             teamContainer.addView(teamPositionViews.get(i - 1));
         }
 

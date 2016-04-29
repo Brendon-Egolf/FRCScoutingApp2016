@@ -236,7 +236,7 @@ public class DataView extends Fragment {
     public String loadJSONFromAsset() {
         String json;
         try {
-            InputStream inputStream = getContext().getAssets().open("FRC-2016milsu-event.json");
+            InputStream inputStream = getContext().getAssets().open("FRC-2016cur-event.json");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -620,7 +620,7 @@ public class DataView extends Fragment {
                 value = Double.parseDouble(stringValue);
             }
             return value;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return -1;
         }
